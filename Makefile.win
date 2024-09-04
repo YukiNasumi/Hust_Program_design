@@ -1,0 +1,31 @@
+# Project: 项目3
+# Makefile created by Dev-C++ 5.11
+
+CPP      = g++.exe -D__DEBUG__
+CC       = gcc.exe -D__DEBUG__
+WINDRES  = windres.exe
+OBJ      = main.o concrete.o
+LINKOBJ  = main.o concrete.o
+LIBS     = -L"E:/office2013-d/必装插件/Dev-Cpp/MinGW64/lib" -L"E:/office2013-d/必装插件/Dev-Cpp/MinGW64/x86_64-w64-mingw32/lib" -static-libgcc -g3
+INCS     = -I"E:/office2013-d/必装插件/Dev-Cpp/MinGW64/include" -I"E:/office2013-d/必装插件/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"E:/office2013-d/必装插件/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include"
+CXXINCS  = -I"E:/office2013-d/必装插件/Dev-Cpp/MinGW64/include" -I"E:/office2013-d/必装插件/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"E:/office2013-d/必装插件/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include" -I"E:/office2013-d/必装插件/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/c++"
+BIN      = 数独游戏.exe
+CXXFLAGS = $(CXXINCS) -g3
+CFLAGS   = $(INCS) -g3
+RM       = rm.exe -f
+
+.PHONY: all all-before all-after clean clean-custom
+
+all: all-before $(BIN) all-after
+
+clean: clean-custom
+	${RM} $(OBJ) $(BIN)
+
+$(BIN): $(OBJ)
+	$(CC) $(LINKOBJ) -o $(BIN) $(LIBS)
+
+main.o: main.c
+	$(CC) -c main.c -o main.o $(CFLAGS)
+
+concrete.o: concrete.c
+	$(CC) -c concrete.c -o concrete.o $(CFLAGS)
