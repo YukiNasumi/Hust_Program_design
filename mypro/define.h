@@ -12,6 +12,7 @@
 #define OVERFLOW -2
 #define INCREASEMENT 100
 #define EXIST 0
+#define NO_RESULT 5
 
 typedef int status;
 
@@ -468,9 +469,9 @@ Clause * FindLiteral_Before(Root *r) {
 	Paradigm *p;
 	Clause *c;
 	for (p=r->first; p!=NULL; p=p->nextc) {
-		if (p->flag==0) {
+		if (p->flag==EXIST) {
 			for (c=p->sentence; c!=NULL; c=c->nextl) {
-				if (c->flag==0) {
+				if (c->flag==EXIST) {
 					return c;
 				}
 			}
@@ -803,7 +804,7 @@ status SAT(void) {
 	}
     getchar(); getchar();
 	op=1;
-	solut=5;
+	solut=NO_RESULT;
 	while (op) {
 		system("cls");
 		printf("\t\tChoose an option please.\n");
@@ -861,7 +862,7 @@ status SAT(void) {
 				getchar();
 				break;
 			case 2:
-				if (solut==5) {
+				if (solut==NO_RESULT) {
 					printf("请先求解CNF公式！\n");
 					getchar();
 					getchar();
@@ -877,7 +878,7 @@ status SAT(void) {
 				getchar();
 				break;
 			case 3:
-				if (solut==5) {
+				if (solut==NO_RESULT) {
 					printf("请先求解CNF公式！\n");
 					getchar();
 					getchar();
@@ -1253,7 +1254,7 @@ status DPLL_Before(Root *r,int op) {
 	Paraline *pline;
 	int *Memory;
 
-	/*建立Memory栈保存每次DPLL循环过程中真值设为1的文字*/
+
 	Memory=(int*)malloc((r->litsize)*sizeof(int));
 	for (i=0; i<r->litsize; i++)
 		Memory[i]=0;
@@ -1264,13 +1265,14 @@ status DPLL_Before(Root *r,int op) {
 	} else {
 		c=NULL;
 	}
+	//单子句传播
 	while (c!=NULL) {
 		l=c->literal;
-		Memory[i++]=l;
+		Memory[i++]=l;//添加单子句的文字
 		DeleteClause(r, l);//删除含文字l的子句
 		if (DeleteLiteral(r, l)==FALSE) { //删除字句中文字l的负文字
 			//如探测后公式无解，恢复递归进入本次函数前的邻接链表状态
-			if (Memory[0]!=0)
+			if (Memory[0]!=0)//栈不为空
 				RemoveHeadClaus(r, Memory[0]);//删除增加的单子句
 			for (i=0; Memory[i]!=0; i++) {
 				RecoverCNF(r, Memory[i]);
@@ -1288,14 +1290,14 @@ status DPLL_Before(Root *r,int op) {
 			ValueList[0-l].IsInit=1;
 		}
 		if (FindLiteral_Before(r)==NULL)
-			return TRUE;//公式中没有剩余的为赋真值的变元，求解成功
+			return TRUE;//公式中没有剩余的未赋真值的变元，求解成功
 		c=HasUnitClause_Before(r);//寻找公式中的单子句并将其文字值赋给l
 	}
 
-	Memory[i]=0;
+	Memory[i]=0;//相当于设置line1327的条件
 	if (op==1) {
-		c=FindLiteral_Before(r);
-	} else {
+		c=FindLiteral_Before(r);//顺序找到还存在的文字指针
+	} else {//?
 		do {
 			l=rand()%729+1;
 			for (pline=ValueList[l].Neg.Tra_cla; pline!=NULL; pline=pline->next) {
@@ -1309,7 +1311,7 @@ status DPLL_Before(Root *r,int op) {
 				break;
 		}
 	}
-	if (c==NULL)
+	if (c==NULL)//全被赋值了，一个子句也没有
 		return TRUE;
 	l=c->literal;
 	AddClause(r, l);//设文字l真值为1，在CNF范式邻接链表表头增加含文字l的单子句链表
