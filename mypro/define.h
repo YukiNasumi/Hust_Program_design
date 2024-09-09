@@ -437,9 +437,9 @@ int FindLiteral3(Root *r){
     Paradigm *p;
     Clause *c;
     for (p=r->first; p!=NULL; p=p->nextc)
-        if (p->flag==0) {//子句未被删除
+        if (p->flag==EXIST) {//子句未被删除
             for (c=p->sentence; c!=NULL; c=c->nextl) {
-                if (c->flag==0) {//文字未被删除
+                if (c->flag==EXIST) {//文字未被删除
                     return c->literal;
                 }
             }
@@ -1120,8 +1120,9 @@ status DPLL3(int num,int op,int timesofDPLL) {
 		l=HasUnitClause(r);
 	}
 	if (op==1) {
-		l=FindLiteral3(r);
-	} else {
+		l=FindLiteral3(r);//顺序选取没有技巧
+	} 
+	else {
 		do {
 			l=rand()%729+1;
 			for (pline=ValueList[l].Neg.Tra_cla; pline!=NULL; pline=pline->next) {
@@ -1542,6 +1543,24 @@ FILE * CreateSudokuFile(void) {
 			fprintf(fp, "0\n");
 		}
 	}                        //每个cell必须取1～9中的一个值
+	// 添加对主对角线的约束
+for (z = 1; z <= 9; z++) {
+    for (x = 0; x < 8; x++) {
+        for (i = x + 1; i < 9; i++) {
+            fprintf(fp, "%d %d 0\n", -(81 * x + 9 * x + z), -(81 * i + 9 * i + z));
+        }
+    }
+}
+
+// 添加对副对角线的约束
+for (z = 1; z <= 9; z++) {
+    for (x = 0; x < 8; x++) {
+        for (i = x + 1; i < 9; i++) {
+            fprintf(fp, "%d %d 0\n", -(81 * x + 9 * (8 - x) + z), -(81 * i + 9 * (8 - i) + z));
+        }
+    }
+}
+
 	fclose(fp);
 	fp=fopen("SudokuTableBase.cnf", "r");
 	return fp;
