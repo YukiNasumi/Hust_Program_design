@@ -17,149 +17,149 @@
 typedef int status;
 
 
-/*¶¨Òå×Ó¾äÁ´±í½áµã½á¹¹ÀàĞÍ*/
+/*å®šä¹‰å­å¥é“¾è¡¨ç»“ç‚¹ç»“æ„ç±»å‹*/
 typedef struct Clause{
-    int literal;//¼ÇÂ¼×Ó¾äÖĞµÄÎÄ×Ö
+    int literal;//è®°å½•å­å¥ä¸­çš„æ–‡å­—
     int flag;
-	//±ê¼Ç¸ÃÎÄ×ÖÊÇ·ñÒÑ±»É¾³ı£¬Î´É¾³ıÊ±ÖµÎª0(EXIST)£¬·ñÔòÖµÎªÊ¹Ö®É¾³ıµÄ±äÔªĞòºÅ±ãÓÚ»Ø¸´ 
-    struct Clause *nextl;//Ö¸Ïò¸Ã×Ó¾äÖĞÏÂÒ»ÎÄ×ÖµÄÖ¸Õë
+	//æ ‡è®°è¯¥æ–‡å­—æ˜¯å¦å·²è¢«åˆ é™¤ï¼Œæœªåˆ é™¤æ—¶å€¼ä¸º0(EXIST)ï¼Œå¦åˆ™å€¼ä¸ºä½¿ä¹‹åˆ é™¤çš„å˜å…ƒåºå·ä¾¿äºå›å¤ 
+    struct Clause *nextl;//æŒ‡å‘è¯¥å­å¥ä¸­ä¸‹ä¸€æ–‡å­—çš„æŒ‡é’ˆ
     struct Clause *litline;
-	//Ö¸ÏòÕû¸öCNF¹«Ê½ÁÚ½ÓÁ´±íÖĞÏÂÒ»¸öÎÄ×ÖÏàÍ¬µÄ×Ó¾ä½áµã£¬ÓÃÓÚ»Ø¸´Óë·½±ã²éÕÒ 
+	//æŒ‡å‘æ•´ä¸ªCNFå…¬å¼é‚»æ¥é“¾è¡¨ä¸­ä¸‹ä¸€ä¸ªæ–‡å­—ç›¸åŒçš„å­å¥ç»“ç‚¹ï¼Œç”¨äºå›å¤ä¸æ–¹ä¾¿æŸ¥æ‰¾ 
 }Clause;
 
-/*¶¨ÒåCNF·¶Ê½Á´±í½áµã£¨¼´×Ó¾äÁ´±íÍ·½áµã£©½á¹¹ÀàĞÍ*/
+/*å®šä¹‰CNFèŒƒå¼é“¾è¡¨ç»“ç‚¹ï¼ˆå³å­å¥é“¾è¡¨å¤´ç»“ç‚¹ï¼‰ç»“æ„ç±»å‹*/
 typedef struct Paradigm{
-    int number;//×Ó¾äÖĞÏÔÊ¾µÄÎÄ×ÖÊı£¬±ãÓÚÕÒµ¥×Ó¾ä 
+    int number;//å­å¥ä¸­æ˜¾ç¤ºçš„æ–‡å­—æ•°ï¼Œä¾¿äºæ‰¾å•å­å¥ 
     int flag;
-	//±ê¼Ç¸Ã×Ó¾äÊÇ·ñÒÑ±»É¾³ı£¬Î´É¾³ıÊ±ÖµÎª0(EXIST)£¬·ñÔòÖµÎªÊ¹Ö®É¾³ıµÄ±äÔªĞòºÅ±ãÓÚ»Ø¸´ 
-    struct Paradigm *nextc;//Ö¸ÏòÏÂÒ»×Ó¾äµÄÍ·½áµã
-    struct Clause *sentence;//×Ó¾äÍ·Ö¸Õë
+	//æ ‡è®°è¯¥å­å¥æ˜¯å¦å·²è¢«åˆ é™¤ï¼Œæœªåˆ é™¤æ—¶å€¼ä¸º0(EXIST)ï¼Œå¦åˆ™å€¼ä¸ºä½¿ä¹‹åˆ é™¤çš„å˜å…ƒåºå·ä¾¿äºå›å¤ 
+    struct Paradigm *nextc;//æŒ‡å‘ä¸‹ä¸€å­å¥çš„å¤´ç»“ç‚¹
+    struct Clause *sentence;//å­å¥å¤´æŒ‡é’ˆ
 }Paradigm;
 
-/*¶¨ÒåCNF·¶Ê½Á´±íÍ·½áµãÀàĞÍ£¬´æ´¢CNF·¶Ê½ĞÅÏ¢*/
+/*å®šä¹‰CNFèŒƒå¼é“¾è¡¨å¤´ç»“ç‚¹ç±»å‹ï¼Œå­˜å‚¨CNFèŒƒå¼ä¿¡æ¯*/
 typedef struct Root{
-    int litsize;//´æ´¢ÎÄ×ÖÊıÁ¿
-    int parasize;//´æ´¢×Ó¾äÊıÁ¿
-    Paradigm *first;//Ö¸ÏòµÚÒ»¸ö×Ó¾ä
+    int litsize;//å­˜å‚¨æ–‡å­—æ•°é‡
+    int parasize;//å­˜å‚¨å­å¥æ•°é‡
+    Paradigm *first;//æŒ‡å‘ç¬¬ä¸€ä¸ªå­å¥
 }Root;
  
-//Dpll»áÓÃµ½µÄÁ½¸ö½á¹¹£¬ÓÃÓÚ¸ü¿ìÑ°ÕÒÕıÎÄ×ÖºÍ¸ºÎÄ×Ö 
-/*¶¨ÒåÖ¸Ïò×Ó¾äÁ´±íÍ·½áµãµÄÖ¸ÕëÁ´±í½áµã½á¹¹ÀàĞÍ*/
+//Dpllä¼šç”¨åˆ°çš„ä¸¤ä¸ªç»“æ„ï¼Œç”¨äºæ›´å¿«å¯»æ‰¾æ­£æ–‡å­—å’Œè´Ÿæ–‡å­— 
+/*å®šä¹‰æŒ‡å‘å­å¥é“¾è¡¨å¤´ç»“ç‚¹çš„æŒ‡é’ˆé“¾è¡¨ç»“ç‚¹ç»“æ„ç±»å‹*/
 typedef struct Paraline{
-    Paradigm *claline;//Ö¸Ïò×Ó¾äÁ´±íÍ·½áµãParadigm
-    struct Paraline *next;//Ö¸ÏòÏÂÒ»Á´±í½áµã
+    Paradigm *claline;//æŒ‡å‘å­å¥é“¾è¡¨å¤´ç»“ç‚¹Paradigm
+    struct Paraline *next;//æŒ‡å‘ä¸‹ä¸€é“¾è¡¨ç»“ç‚¹
 } Paraline;
 
-/*¶¨ÒåÎÄ×ÖÏà¹ØĞÅÏ¢Á´±í½á¹¹ÀàĞÍ*/
+/*å®šä¹‰æ–‡å­—ç›¸å…³ä¿¡æ¯é“¾è¡¨ç»“æ„ç±»å‹*/
 typedef struct LitTrabverse{
-    Paraline *Tra_cla;//Ö¸Ïòº¬ÓĞ¸ÃÕıÎÄ×Ö»ò¸ºÎÄ×ÖµÄ×Ó¾äÍ·½áµãÁ´±íµÄÍ·½áµã
-    Clause *Tra_lit;//Ö¸Ïò¸ÃÕıÎÄ×Ö»ò¸ºÎÄ×ÖµÄÎÄ×Ö½áµã
+    Paraline *Tra_cla;//æŒ‡å‘å«æœ‰è¯¥æ­£æ–‡å­—æˆ–è´Ÿæ–‡å­—çš„å­å¥å¤´ç»“ç‚¹é“¾è¡¨çš„å¤´ç»“ç‚¹
+    Clause *Tra_lit;//æŒ‡å‘è¯¥æ­£æ–‡å­—æˆ–è´Ÿæ–‡å­—çš„æ–‡å­—ç»“ç‚¹
 }LitTrabverse;
 
-/*¶¨ÒåÇó½âÊı¶ÀÎÄ¼şÊ±ËùĞèµÄ´æ´¢±äÔªĞÅÏ¢½á¹¹ÀàĞÍ*/
+/*å®šä¹‰æ±‚è§£æ•°ç‹¬æ–‡ä»¶æ—¶æ‰€éœ€çš„å­˜å‚¨å˜å…ƒä¿¡æ¯ç»“æ„ç±»å‹*/
 typedef struct sudokusolver{
-    int x;//´æ´¢ĞĞĞÅÏ¢
-    int y;//´æ´¢ÁĞĞÅÏ¢
-    int z;//´æ´¢±äÔª¶ÔÓ¦1¡«9ÊıÖµĞÅÏ¢
+    int x;//å­˜å‚¨è¡Œä¿¡æ¯
+    int y;//å­˜å‚¨åˆ—ä¿¡æ¯
+    int z;//å­˜å‚¨å˜å…ƒå¯¹åº”1ï½9æ•°å€¼ä¿¡æ¯
 } sudokusolver;
 
-/*¶¨Òå´æ´¢±äÔªĞÅÏ¢µÄ±äÔªÏßĞÔ±í½áµã½á¹¹ÀàĞÍ*/
+/*å®šä¹‰å­˜å‚¨å˜å…ƒä¿¡æ¯çš„å˜å…ƒçº¿æ€§è¡¨ç»“ç‚¹ç»“æ„ç±»å‹*/
 typedef struct ArgueValue{
-    int Value;//±äÔªµÄÕæÖµ
-    int IsInit;//±äÔªÊÇ·ñÒÑ¸³Öµ
-    int Occur_times;//±äÔªÔÚËùÓĞ×Ó¾äÖĞ³öÏÖµÄ×Ü´ÎÊı£¬ÓÃÓÚ·ÖÁÑÕş²ßµÄÑ¡Ôñ 
-    LitTrabverse Pos;//±äÔªËùÓĞÕıÎÄ×ÖµÄÏà¹ØĞÅÏ¢½á¹¹
-    LitTrabverse Neg;//±äÔªËùÓĞ¸ºÎÄ×ÖµÄÏà¹ØĞÅÏ¢½á¹¹
-    sudokusolver xyz;//Çó½âÊı¶ÀÎÄ¼şÊ±ËùĞèµÄ±äÔªĞÅÏ¢
+    int Value;//å˜å…ƒçš„çœŸå€¼
+    int IsInit;//å˜å…ƒæ˜¯å¦å·²èµ‹å€¼
+    int Occur_times;//å˜å…ƒåœ¨æ‰€æœ‰å­å¥ä¸­å‡ºç°çš„æ€»æ¬¡æ•°ï¼Œç”¨äºåˆ†è£‚æ”¿ç­–çš„é€‰æ‹© 
+    LitTrabverse Pos;//å˜å…ƒæ‰€æœ‰æ­£æ–‡å­—çš„ç›¸å…³ä¿¡æ¯ç»“æ„
+    LitTrabverse Neg;//å˜å…ƒæ‰€æœ‰è´Ÿæ–‡å­—çš„ç›¸å…³ä¿¡æ¯ç»“æ„
+    sudokusolver xyz;//æ±‚è§£æ•°ç‹¬æ–‡ä»¶æ—¶æ‰€éœ€çš„å˜å…ƒä¿¡æ¯
 } ArgueValue;
 
 
-//È«¾Ö±äÁ¿
-char filename[1000]; //ÎÄ¼şÃû 
-long instacksize;//¼ÇÂ¼Õ»stackµÄ´óĞ¡
-ArgueValue *ValueList;//±äÔªÕæÖµ±í 
-Root *r;//Á´±í 
-int *Frequency;//±äÔª³öÏÖ´ÎÊı¸¨ÖúÊı×é 
-int *stack;//DPLL¸¨ÖúÕ» 
-int sudoku_table[9][9];//¶¨ÒåÈ«¾Ö±äÁ¿intÀàĞÍ¶şÎ¬Êı×é´æ´¢Êı¶ÀÅÌ
-int users_sudoku[9][9];//´æ´¢Êä³öµÄº¬¿Õ¸ñÊı¶ÀÎÊÌâ¸ñ¾Ö
-int sum_op;//×ÜÑ¡Ôñ 
-/*------------------------CNFÎÄ¼ş´¦Àí------------------------*/
+//å…¨å±€å˜é‡
+char filename[1000]; //æ–‡ä»¶å 
+long instacksize;//è®°å½•æ ˆstackçš„å¤§å°
+ArgueValue *ValueList;//å˜å…ƒçœŸå€¼è¡¨ 
+Root *r;//é“¾è¡¨ 
+int *Frequency;//å˜å…ƒå‡ºç°æ¬¡æ•°è¾…åŠ©æ•°ç»„ 
+int *stack;//DPLLè¾…åŠ©æ ˆ 
+int sudoku_table[9][9];//å®šä¹‰å…¨å±€å˜é‡intç±»å‹äºŒç»´æ•°ç»„å­˜å‚¨æ•°ç‹¬ç›˜
+int users_sudoku[9][9];//å­˜å‚¨è¾“å‡ºçš„å«ç©ºæ ¼æ•°ç‹¬é—®é¢˜æ ¼å±€
+int sum_op;//æ€»é€‰æ‹© 
+/*------------------------CNFæ–‡ä»¶å¤„ç†------------------------*/
 
-status CreateParadigm(FILE **fp);//´´½¨CNF·¶Ê½ÁÚ½ÓÁ´±í¼°±äÔª±í
-int CreateClause(FILE **fp,Clause **sentence,Paradigm *ClausHead,int first);//´´½¨×Ó¾äÁ´±í¼°ÎÄ×ÖÁ´±í
-status DestroyParadigm(Root *r);//Ïú»ÙËùÓĞÁ´±í¼°ÏßĞÔ±í½á¹¹
-int HasUnitClause(Root *r);//ÅĞ¶ÏCNF·¶Ê½ÖĞÊÇ·ñ»¹º¬ÓĞµ¥×Ó¾ä
-Clause * HasUnitClause_Before(Root *r);//ÅĞ¶ÏCNF·¶Ê½ÖĞÊÇ·ñ»¹º¬ÓĞµ¥×Ó¾ä£¨ÓÅ»¯Ç°°æ±¾£©
-status isUnitClause(Paradigm *c);//ÅĞ¶ÏÖ¸ÕëcÖ¸ÏòµÄ×Ó¾äÁ´±íÊÇ·ñÎªµ¥×Ó¾äÁ´±í
+status CreateParadigm(FILE **fp);//åˆ›å»ºCNFèŒƒå¼é‚»æ¥é“¾è¡¨åŠå˜å…ƒè¡¨
+int CreateClause(FILE **fp,Clause **sentence,Paradigm *ClausHead,int first);//åˆ›å»ºå­å¥é“¾è¡¨åŠæ–‡å­—é“¾è¡¨
+status DestroyParadigm(Root *r);//é”€æ¯æ‰€æœ‰é“¾è¡¨åŠçº¿æ€§è¡¨ç»“æ„
+int HasUnitClause(Root *r);//åˆ¤æ–­CNFèŒƒå¼ä¸­æ˜¯å¦è¿˜å«æœ‰å•å­å¥
+Clause * HasUnitClause_Before(Root *r);//åˆ¤æ–­CNFèŒƒå¼ä¸­æ˜¯å¦è¿˜å«æœ‰å•å­å¥ï¼ˆä¼˜åŒ–å‰ç‰ˆæœ¬ï¼‰
+status isUnitClause(Paradigm *c);//åˆ¤æ–­æŒ‡é’ˆcæŒ‡å‘çš„å­å¥é“¾è¡¨æ˜¯å¦ä¸ºå•å­å¥é“¾è¡¨
 
-/*ÔÚÕû¸öCNF¹«Ê½ÖĞÈ¡Ò»¸öÎÄ×Ö*/
-int FindLiteral1(Root *r);//È¡Ã¿´ÎDPLL´¦Àíºó¹«Ê½ÖĞOccur_Times×î´óµÄÎÄ×Ö
-int FindLiteral2(Root *r);//È¡Ô­¹«Ê½ÖĞOccur_Times×î´óµÄÎÄ×Ö
-int FindLiteral3(Root *r);//È¡×Ó¾äÖĞµÚÒ»¸öÎ´±»É¾³ı£¨flagÎª0£©µÄÎÄ×Ö
-int FindLiteral4(Root *r);//±äÔª±íÕıĞòÕıĞòµÚÒ»¸öÎ´¸³ÕæÖµ£¨IsInit=0£©µÄ±äÔªµÄÕıÎÄ×Ö
-Clause * FindLiteral_Before(Root *r);//ÔÚÕû¸öCNF¹«Ê½ÖĞÈ¡Ò»¸öÎÄ×Ö£¨ÓÅ»¯Ç°°æ±¾£©
+/*åœ¨æ•´ä¸ªCNFå…¬å¼ä¸­å–ä¸€ä¸ªæ–‡å­—*/
+int FindLiteral1(Root *r);//å–æ¯æ¬¡DPLLå¤„ç†åå…¬å¼ä¸­Occur_Timesæœ€å¤§çš„æ–‡å­—
+int FindLiteral2(Root *r);//å–åŸå…¬å¼ä¸­Occur_Timesæœ€å¤§çš„æ–‡å­—
+int FindLiteral3(Root *r);//å–å­å¥ä¸­ç¬¬ä¸€ä¸ªæœªè¢«åˆ é™¤ï¼ˆflagä¸º0ï¼‰çš„æ–‡å­—
+int FindLiteral4(Root *r);//å˜å…ƒè¡¨æ­£åºæ­£åºç¬¬ä¸€ä¸ªæœªèµ‹çœŸå€¼ï¼ˆIsInit=0ï¼‰çš„å˜å…ƒçš„æ­£æ–‡å­—
+Clause * FindLiteral_Before(Root *r);//åœ¨æ•´ä¸ªCNFå…¬å¼ä¸­å–ä¸€ä¸ªæ–‡å­—ï¼ˆä¼˜åŒ–å‰ç‰ˆæœ¬ï¼‰
 
-status DeleteClause(Root *r,int l);//É¾³ı³öÏÖÁËÎÄ×ÖlµÄËùÓĞµ¥×Ó¾ä
-status AddClause(Root *r,int l);//ÔÚCNF·¶Ê½ÁÚ½ÓÁ´±í±íÍ·Ìí¼ÓÖ»º¬ÓĞÎÄ×ÖlµÄµ¥×Ó¾äÁ´±í
-status RemoveHeadClaus(Root *r,int l);//É¾³ıCNF·¶Ê½ÁÚ½ÓÁ´±íÖĞ´Ó±íÍ·¿ªÊ¼µÚÒ»¸öÖ»º¬ÓĞÎÄ×ÖlµÄµ¥×Ó¾äÁ´±í
-status DeleteLiteral(Root *r,int l);//É¾³ıËùÓĞÎÄ×ÖÎª-lµÄ×Ó¾äÁ´±í½áµã
-status RecoverCNF(Root *r,int l);//»Ö¸´ÈÏÎªÎÄ×ÖlÎªÕæÊ±¶ÔCNF·¶Ê½ÁÚ½ÓÁ´±íËù×÷µÄ²Ù×÷
-void ParadigmTrabverse(Root *r);//±éÀúCNF·¶Ê½ÁÚ½ÓÁ´±í
-status SaveValue(ArgueValue *ValueList,int solut,int time);//±£´æCNF·¶Ê½µÄ½â¼°Çó½âÊ±¼äĞÅÏ¢
+status DeleteClause(Root *r,int l);//åˆ é™¤å‡ºç°äº†æ–‡å­—lçš„æ‰€æœ‰å•å­å¥
+status AddClause(Root *r,int l);//åœ¨CNFèŒƒå¼é‚»æ¥é“¾è¡¨è¡¨å¤´æ·»åŠ åªå«æœ‰æ–‡å­—lçš„å•å­å¥é“¾è¡¨
+status RemoveHeadClaus(Root *r,int l);//åˆ é™¤CNFèŒƒå¼é‚»æ¥é“¾è¡¨ä¸­ä»è¡¨å¤´å¼€å§‹ç¬¬ä¸€ä¸ªåªå«æœ‰æ–‡å­—lçš„å•å­å¥é“¾è¡¨
+status DeleteLiteral(Root *r,int l);//åˆ é™¤æ‰€æœ‰æ–‡å­—ä¸º-lçš„å­å¥é“¾è¡¨ç»“ç‚¹
+status RecoverCNF(Root *r,int l);//æ¢å¤è®¤ä¸ºæ–‡å­—lä¸ºçœŸæ—¶å¯¹CNFèŒƒå¼é‚»æ¥é“¾è¡¨æ‰€ä½œçš„æ“ä½œ
+void ParadigmTrabverse(Root *r);//éå†CNFèŒƒå¼é‚»æ¥é“¾è¡¨
+status SaveValue(ArgueValue *ValueList,int solut,int time);//ä¿å­˜CNFèŒƒå¼çš„è§£åŠæ±‚è§£æ—¶é—´ä¿¡æ¯
 
-/*------------------------DPLLËã·¨------------------------*/
+/*------------------------DPLLç®—æ³•------------------------*/
 
 status SAT(void);
-status DPLL1(int num,int op,int times);//²ÉÓÃµÚÒ»ÖÖ±äÔªÑ¡È¡²ßÂÔµÄµİ¹éËã·¨DPLLº¯Êı
-status DPLL2(int num,int op,int times);//²ÉÓÃµÚ¶şÖÖ±äÔªÑ¡È¡²ßÂÔµÄµİ¹éËã·¨DPLLº¯Êı
-status DPLL3(int num,int op,int times);//²ÉÓÃµÚÈıÖÖ±äÔªÑ¡È¡²ßÂÔµÄµİ¹éËã·¨DPLLº¯Êı
-status DPLL4(int num,int op,int times);//²ÉÓÃµÚËÄÖÖ±äÔªÑ¡È¡²ßÂÔµÄµİ¹éËã·¨DPLLº¯Êı
-status DPLL_Before(Root *r,int op);//ÓÅ»¯Ç°°æ±¾DPLL
-void AnswerComplete(void);//ÍêÉÆSATÇó½â½á¹û
-status AnswerCheck(int solut);//¼ì²éSATÇó½â½á¹ûÕıÈ·ĞÔ
+status DPLL1(int num,int op,int times);//é‡‡ç”¨ç¬¬ä¸€ç§å˜å…ƒé€‰å–ç­–ç•¥çš„é€’å½’ç®—æ³•DPLLå‡½æ•°
+status DPLL2(int num,int op,int times);//é‡‡ç”¨ç¬¬äºŒç§å˜å…ƒé€‰å–ç­–ç•¥çš„é€’å½’ç®—æ³•DPLLå‡½æ•°
+status DPLL3(int num,int op,int times);//é‡‡ç”¨ç¬¬ä¸‰ç§å˜å…ƒé€‰å–ç­–ç•¥çš„é€’å½’ç®—æ³•DPLLå‡½æ•°
+status DPLL4(int num,int op,int times);//é‡‡ç”¨ç¬¬å››ç§å˜å…ƒé€‰å–ç­–ç•¥çš„é€’å½’ç®—æ³•DPLLå‡½æ•°
+status DPLL_Before(Root *r,int op);//ä¼˜åŒ–å‰ç‰ˆæœ¬DPLL
+void AnswerComplete(void);//å®Œå–„SATæ±‚è§£ç»“æœ
+status AnswerCheck(int solut);//æ£€æŸ¥SATæ±‚è§£ç»“æœæ­£ç¡®æ€§
 
 /*------------------------SuDoKu------------------------*/
 status Sudoku(void);
-FILE * CreateSudokuFile(void);//´´½¨Êı¶ÀÎÊÌâ×ª»¯ÎªSATÎÊÌâºóµÄcnfÎÄ¼ş
-status CreateSudoku(void);//´´½¨ĞÂµÄËæ»ú9*9Êı¶ÀÖÕÅÌ
-status SolveSudoku(void);//Çó½âÊı¶ÀcnfÎÄ¼ş²¢×ª»¯ÎªÊı¶ÀÖÕÅÌĞÎÊ½Êä³ö
-status DigHole(int num);//¶ÔÒÑÖªÊı¶ÀÖÕÅÌÍÚnum¸ö¶´Éú³ÉÓĞÎ¨Ò»½âµÄÊı¶ÀÎÊÌâ
-status SudokuComplete(void);//ÍêÉÆÊı¶ÀÖÕÅÌ
-FILE * SetCNFfile(void);//½«Êı¶ÀtxtÎÄ¼ş×ª»¯Îªcnf 
-status CNFSudokuTableTransform(void);//Êı¶À¶ÔÓ¦SAT±äÔª±í×ª»¯Îª¶şÎ¬Êı×é
-status SudokuTablePrint(void);//Êä³öÊı¶ÀÅÌ
+FILE * CreateSudokuFile(void);//åˆ›å»ºæ•°ç‹¬é—®é¢˜è½¬åŒ–ä¸ºSATé—®é¢˜åçš„cnfæ–‡ä»¶
+status CreateSudoku(void);//åˆ›å»ºæ–°çš„éšæœº9*9æ•°ç‹¬ç»ˆç›˜
+status SolveSudoku(void);//æ±‚è§£æ•°ç‹¬cnfæ–‡ä»¶å¹¶è½¬åŒ–ä¸ºæ•°ç‹¬ç»ˆç›˜å½¢å¼è¾“å‡º
+status DigHole(int num);//å¯¹å·²çŸ¥æ•°ç‹¬ç»ˆç›˜æŒ–numä¸ªæ´ç”Ÿæˆæœ‰å”¯ä¸€è§£çš„æ•°ç‹¬é—®é¢˜
+status SudokuComplete(void);//å®Œå–„æ•°ç‹¬ç»ˆç›˜
+FILE * SetCNFfile(void);//å°†æ•°ç‹¬txtæ–‡ä»¶è½¬åŒ–ä¸ºcnf 
+status CNFSudokuTableTransform(void);//æ•°ç‹¬å¯¹åº”SATå˜å…ƒè¡¨è½¬åŒ–ä¸ºäºŒç»´æ•°ç»„
+status SudokuTablePrint(void);//è¾“å‡ºæ•°ç‹¬ç›˜
 
 
 
-/*------------------------CNFÎÄ¼ş´¦Àí------------------------*/
+/*------------------------CNFæ–‡ä»¶å¤„ç†------------------------*/
 
-/*´´½¨CNF·¶Ê½ÁÚ½ÓÁ´±í¼°±äÔª±í
- ²ÎÊı£º(FILE**)open£ºÎÄ¼şµÄÖ¸ÕëµØÖ·*/
+/*åˆ›å»ºCNFèŒƒå¼é‚»æ¥é“¾è¡¨åŠå˜å…ƒè¡¨
+ å‚æ•°ï¼š(FILE**)openï¼šæ–‡ä»¶çš„æŒ‡é’ˆåœ°å€*/
 status CreateParadigm(FILE **fp) {
-	char readfile[20];//¶¨Òå×Ö·ûÀàĞÍÊı×é¼ÇÂ¼ÔÚÎÄ¼şÖĞ¶Áµ½µÄÄÚÈİ
+	char readfile[20];//å®šä¹‰å­—ç¬¦ç±»å‹æ•°ç»„è®°å½•åœ¨æ–‡ä»¶ä¸­è¯»åˆ°çš„å†…å®¹
 	int l,j;
 	Paradigm *p,*q;
 	r=(Root*)malloc(sizeof(Root));
 	r->first=NULL;
-	while(fscanf(*fp,"%s",readfile)!=EOF) { //Ñ­»·¶ÁÎÄ¼ş
-		if (strcmp(readfile,"p")==0) //¶Áµ½¡®p¡¯ËµÃ÷¿ªÊ¼¶ÁÎÄ¼ş
+	while(fscanf(*fp,"%s",readfile)!=EOF) { //å¾ªç¯è¯»æ–‡ä»¶
+		if (strcmp(readfile,"p")==0) //è¯»åˆ°â€˜pâ€™è¯´æ˜å¼€å§‹è¯»æ–‡ä»¶
 			break;
 	}
 	while (fscanf(*fp, "%s",readfile)!=EOF) {
-		if (strcmp(readfile,"cnf")==0) {//´ÓÎÄ¼şÖĞ¶Áµ½×Ö·û´®¡°cnf¡±
+		if (strcmp(readfile,"cnf")==0) {//ä»æ–‡ä»¶ä¸­è¯»åˆ°å­—ç¬¦ä¸²â€œcnfâ€
 			fscanf(*fp, "%d",&l);
-			r->litsize=l;//¶ÁÈ¡CNFÎÄ¼ş ±äÔªÊı ´æÈër->litsize
+			r->litsize=l;//è¯»å–CNFæ–‡ä»¶ å˜å…ƒæ•° å­˜å…¥r->litsize
 			fscanf(*fp, "%d",&l);
-			r->parasize=l;//¶ÁÈ¡CNFÎÄ¼ş ×Ó¾ä×ÜÊı ´æÈër->parasize
+			r->parasize=l;//è¯»å–CNFæ–‡ä»¶ å­å¥æ€»æ•° å­˜å…¥r->parasize
 			break;
 		}
 	}
 	int i;
-	if(sum_op==1) printf("ÎÄ×ÖÊı%d £¬×Ó¾äÊı%d£¡\n",r->litsize,r->parasize);
-	//´´½¨±äÔª±í£¨³õÊ¼»¯£©
+	if(sum_op==1) printf("æ–‡å­—æ•°%d ï¼Œå­å¥æ•°%dï¼\n",r->litsize,r->parasize);
+	//åˆ›å»ºå˜å…ƒè¡¨ï¼ˆåˆå§‹åŒ–ï¼‰
 	ValueList=(ArgueValue*)malloc((r->litsize+1)*sizeof(ArgueValue));
-	if (ValueList==NULL) return OVERFLOW;//Ã»·ÖÅä³É¹¦
+	if (ValueList==NULL) return OVERFLOW;//æ²¡åˆ†é…æˆåŠŸ
 	for (i=0; i<=r->litsize; i++) {
 		ValueList[i].IsInit=0;
 		ValueList[i].Occur_times=0;
@@ -173,17 +173,17 @@ status CreateParadigm(FILE **fp) {
 
 	i=2;
 	if (r->parasize!=0) {
-		//´´½¨µÚÒ»¸ö×Ó¾äÍ·½áµãÁ´±í½áµã
+		//åˆ›å»ºç¬¬ä¸€ä¸ªå­å¥å¤´ç»“ç‚¹é“¾è¡¨ç»“ç‚¹
 		if (fscanf(*fp, "%d",&l)!=EOF&&l!=0) {
 			p=(Paradigm*)malloc(sizeof(Paradigm));
 			if (p==NULL) return OVERFLOW;
-			r->first=p;//Í·½Úµã
+			r->first=p;//å¤´èŠ‚ç‚¹
 			q=p;
-			p->number=CreateClause(fp, &p->sentence, p, l);//´´½¨Æä¶ÔÓ¦×Ó¾äÁ´±í
+			p->number=CreateClause(fp, &p->sentence, p, l);//åˆ›å»ºå…¶å¯¹åº”å­å¥é“¾è¡¨
 			p->flag=EXIST;
 			p->nextc=NULL;
 
-			//´´½¨CNF·¶Ê½Á´±í
+			//åˆ›å»ºCNFèŒƒå¼é“¾è¡¨
 			while (i<=r->parasize) {
 				i++;
 				fscanf(*fp, "%d",&l);
@@ -198,12 +198,12 @@ status CreateParadigm(FILE **fp) {
 		}
 	}
 
-	//´´½¨Õ»stack¼ÇÂ¼DPLL¹ı³ÌÖĞÉèÎª1µÄÎÄ×Ö¼°ËæÖ®²úÉúµÄµ¥×Ó¾äÎÄ×Ö(ºóĞøÓÃDPLL)
+	//åˆ›å»ºæ ˆstackè®°å½•DPLLè¿‡ç¨‹ä¸­è®¾ä¸º1çš„æ–‡å­—åŠéšä¹‹äº§ç”Ÿçš„å•å­å¥æ–‡å­—(åç»­ç”¨DPLL)
 	stack=(int*)malloc(20000*sizeof(int));
 	stack[0]=0;
 	instacksize=0;
 
-	/*½«±äÔª°´³öÏÖ´ÎÊıÓÉ¶àÖÁÉÙÔÚFrequencyÊı×éÖĞË³ĞòÅÅÁĞ*/
+	/*å°†å˜å…ƒæŒ‰å‡ºç°æ¬¡æ•°ç”±å¤šè‡³å°‘åœ¨Frequencyæ•°ç»„ä¸­é¡ºåºæ’åˆ—*/
 	for (i=0; i<r->litsize; i++)
 		Frequency[i]=i+1;
 	for (i=0; i<r->litsize; i++) {
@@ -219,19 +219,19 @@ status CreateParadigm(FILE **fp) {
 	return OK;
 }
 
-/*´´½¨×Ó¾äÁ´±í¼°ÎÄ×ÖÁ´±í
- ²ÎÊı£º(FILE**)open£ºÎÄ¼şµÄÖ¸ÕëµØÖ·
-       (Clause **)sentence:×Ó¾äµÄÍ·½áµã ClauseÀàĞÍÖ¸ÕëµØÖ·
-       (Paradigm *)ClausHead£º×Ó¾äÁ´±íÍ·½ÚµãÖ¸ÕëÖµ
-	   (int )first£º´´½¨µÄ×Ó¾äµÄµÚÒ»¸öÎÄ×ÖµÄÖµ
- ·µ»ØÖµ£ºi£º×Ó¾äÄÚÎÄ×ÖµÄÊıÁ¿
-        ERROR£º¸Ã×Ó¾äÎª¿Õ×Ó¾ä
-        OVERFLOW£º¿Õ¼ä²»×ãÒç³ö*/
+/*åˆ›å»ºå­å¥é“¾è¡¨åŠæ–‡å­—é“¾è¡¨
+ å‚æ•°ï¼š(FILE**)openï¼šæ–‡ä»¶çš„æŒ‡é’ˆåœ°å€
+       (Clause **)sentence:å­å¥çš„å¤´ç»“ç‚¹ Clauseç±»å‹æŒ‡é’ˆåœ°å€
+       (Paradigm *)ClausHeadï¼šå­å¥é“¾è¡¨å¤´èŠ‚ç‚¹æŒ‡é’ˆå€¼
+	   (int )firstï¼šåˆ›å»ºçš„å­å¥çš„ç¬¬ä¸€ä¸ªæ–‡å­—çš„å€¼
+ è¿”å›å€¼ï¼šiï¼šå­å¥å†…æ–‡å­—çš„æ•°é‡
+        ERRORï¼šè¯¥å­å¥ä¸ºç©ºå­å¥
+        OVERFLOWï¼šç©ºé—´ä¸è¶³æº¢å‡º*/
 int CreateClause(FILE **fp,Clause **sentence,Paradigm *ClausHead,int first) {
 	Clause *p,*q;
 	Paraline *pline;
-	int l,l1,i=0;//i¼ÇÂ¼µ¥¸ö×Ó¾äÖĞÎÄ×ÖÊıÁ¿
-	if (first==0) return ERROR;//²»´æÔÚÃ»ÓĞÎÄ×ÖµÄ×Ó¾ä
+	int l,l1,i=0;//iè®°å½•å•ä¸ªå­å¥ä¸­æ–‡å­—æ•°é‡
+	if (first==0) return ERROR;//ä¸å­˜åœ¨æ²¡æœ‰æ–‡å­—çš„å­å¥
 
 	p=(Clause*)malloc(sizeof(Clause));
 	if (p==NULL) return OVERFLOW;
@@ -245,14 +245,14 @@ int CreateClause(FILE **fp,Clause **sentence,Paradigm *ClausHead,int first) {
 
 	l1=abs(first);
 	ValueList[l1].Occur_times++;
-	if (first>0) { //ÓÃÀ´DPLLÊ±Ñ°ÕÒÏàÍ¬ÎÄ×ÖµÄ²»Í¬×Ó¾äÒÔ¼°É¾³ıºó»Ø¸´
+	if (first>0) { //ç”¨æ¥DPLLæ—¶å¯»æ‰¾ç›¸åŒæ–‡å­—çš„ä¸åŒå­å¥ä»¥åŠåˆ é™¤åå›å¤
 		p->litline=ValueList[l1].Pos.Tra_lit;
 		ValueList[l1].Pos.Tra_lit=p;
 		pline=(Paraline*)malloc(sizeof(Paraline));
 		pline->claline=ClausHead;
 		pline->next=ValueList[l1].Pos.Tra_cla;
 		ValueList[l1].Pos.Tra_cla=pline;
-	} else { //Í¬ÉÏ
+	} else { //åŒä¸Š
 		p->litline=ValueList[l1].Neg.Tra_lit;
 		ValueList[l1].Neg.Tra_lit=p;
 		pline=(Paraline*)malloc(sizeof(Paraline));
@@ -263,7 +263,7 @@ int CreateClause(FILE **fp,Clause **sentence,Paradigm *ClausHead,int first) {
 
 	fscanf(*fp, "%d",&l);
 	while (l!=0) {
-		// ´´½¨ÎÄ×ÖÁ´±í½áµã
+		// åˆ›å»ºæ–‡å­—é“¾è¡¨ç»“ç‚¹
 		p=(Clause*)malloc(sizeof(Clause));
 		if (p==NULL) return OVERFLOW;
 		p->literal=l;
@@ -273,7 +273,7 @@ int CreateClause(FILE **fp,Clause **sentence,Paradigm *ClausHead,int first) {
 		q=q->nextl;
 		i++;
 
-		// ´´½¨±äÔªÁ´±í
+		// åˆ›å»ºå˜å…ƒé“¾è¡¨
 		l1=abs(l);
 		ValueList[l1].Occur_times++;
 		if (l>0) {
@@ -291,13 +291,13 @@ int CreateClause(FILE **fp,Clause **sentence,Paradigm *ClausHead,int first) {
 			pline->next=ValueList[l1].Neg.Tra_cla;
 			ValueList[l1].Neg.Tra_cla=pline;
 		}
-		fscanf(*fp, "%d",&l);//¶ÁÈ¡ÏÂÒ»ÎÄ×Ö
+		fscanf(*fp, "%d",&l);//è¯»å–ä¸‹ä¸€æ–‡å­—
 	}
 
 	return i;
 }
 
-/*Ïú»ÙCNF·¶Ê½ÁÚ½ÓÁ´±í*/
+/*é”€æ¯CNFèŒƒå¼é‚»æ¥é“¾è¡¨*/
 status DestroyParadigm(Root *r) {
 	Paradigm *p;
 	Clause *t;
@@ -305,23 +305,23 @@ status DestroyParadigm(Root *r) {
 	int i;
 	if (r->first!=NULL) {
 		p=r->first;
-		//Ïú»ÙCNF·¶Ê½Á´±í
+		//é”€æ¯CNFèŒƒå¼é“¾è¡¨
 		while (p!=NULL) {
 			if (p->sentence!=NULL) {
 				t=p->sentence;
-				//Ïú»Ùµ¥¸ö×Ó¾äÁ´±í
+				//é”€æ¯å•ä¸ªå­å¥é“¾è¡¨
 				while (t!=NULL) {
 					p->sentence=t->nextl;
-					free(t);//ÊÍ·Å´æ´¢ÎÄ×ÖµÄµ¥¸ö×Ó¾äÁ´±í½áµã¿Õ¼ä
+					free(t);//é‡Šæ”¾å­˜å‚¨æ–‡å­—çš„å•ä¸ªå­å¥é“¾è¡¨ç»“ç‚¹ç©ºé—´
 					t=p->sentence;
 				}
 			}
 			r->first=p->nextc;
-			free(p);//ÊÍ·Å×Ó¾äÁ´±íÍ·½áµã´æ´¢¿Õ¼ä
+			free(p);//é‡Šæ”¾å­å¥é“¾è¡¨å¤´ç»“ç‚¹å­˜å‚¨ç©ºé—´
 			p=r->first;
 		}
 	}
-	//ÊÍ·Å±äÔªÕı¸ºÎÄ×ÖĞÅÏ¢Á´±í´æ´¢¿Õ¼ä
+	//é‡Šæ”¾å˜å…ƒæ­£è´Ÿæ–‡å­—ä¿¡æ¯é“¾è¡¨å­˜å‚¨ç©ºé—´
 	for (i=0; i<=r->litsize; i++) {
 		for (pline=ValueList[i].Pos.Tra_cla; pline!=NULL; pline=ValueList[i].Pos.Tra_cla) {
 			ValueList[i].Pos.Tra_cla=pline->next;
@@ -340,18 +340,18 @@ status DestroyParadigm(Root *r) {
 	return OK;
 }
 
-/*ÅĞ¶ÏCNF·¶Ê½ÖĞÊÇ·ñ´æÔÚµ¥×Ó¾ä
- ·µ»ØÀàĞÍ£ºint
- ·µ»ØÖµ£º´æÔÚµ¥×Ó¾ä£º¸Ãµ¥×Ó¾äËùº¬µÄÎ¨Ò»ÎÄ×Ö
-       ²»´æÔÚµ¥×Ó¾ä£º0*/
+/*åˆ¤æ–­CNFèŒƒå¼ä¸­æ˜¯å¦å­˜åœ¨å•å­å¥
+ è¿”å›ç±»å‹ï¼šint
+ è¿”å›å€¼ï¼šå­˜åœ¨å•å­å¥ï¼šè¯¥å•å­å¥æ‰€å«çš„å”¯ä¸€æ–‡å­—
+       ä¸å­˜åœ¨å•å­å¥ï¼š0*/
 int HasUnitClause(Root *r) {
 	Paradigm *p;
 	Clause *t;
 	for(p=r->first; p!=NULL; p=p->nextc) {
-		if(p->flag==0) { //×Ó¾äÃ»ÓĞ±»É¾³ı
-			if(p->number==1)//×Ó¾äÎÄ×ÖÊıÎª1;
+		if(p->flag==0) { //å­å¥æ²¡æœ‰è¢«åˆ é™¤
+			if(p->number==1)//å­å¥æ–‡å­—æ•°ä¸º1;
 				for (t=p->sentence; t!=NULL; t=t->nextl) {
-					if (t->flag==0)//ÎÄ×ÖÃ»ÓĞ±»É¾³ı
+					if (t->flag==0)//æ–‡å­—æ²¡æœ‰è¢«åˆ é™¤
 						return t->literal;
 				}
 
@@ -360,18 +360,18 @@ int HasUnitClause(Root *r) {
 	return 0;
 }
 
-/*ÅĞ¶ÏCNF·¶Ê½ÖĞÊÇ·ñ»¹º¬ÓĞµ¥×Ó¾ä£¨ÓÅ»¯Ç°°æ±¾£©
- ·µ»ØÀàĞÍ£ºClause *
- ·µ»ØÖµ£º´æÔÚµ¥×Ó¾ä£º¸Ãµ¥×Ó¾äËùº¬µÄÎ¨Ò»Clause½áµãµÄÖ¸Õë
-       ²»´æÔÚµ¥×Ó¾ä£ºNULL*/
+/*åˆ¤æ–­CNFèŒƒå¼ä¸­æ˜¯å¦è¿˜å«æœ‰å•å­å¥ï¼ˆä¼˜åŒ–å‰ç‰ˆæœ¬ï¼‰
+ è¿”å›ç±»å‹ï¼šClause *
+ è¿”å›å€¼ï¼šå­˜åœ¨å•å­å¥ï¼šè¯¥å•å­å¥æ‰€å«çš„å”¯ä¸€Clauseç»“ç‚¹çš„æŒ‡é’ˆ
+       ä¸å­˜åœ¨å•å­å¥ï¼šNULL*/
 Clause * HasUnitClause_Before(Root *r) {
 	Paradigm *p;
 	Clause *t;
 	for(p=r->first; p!=NULL; p=p->nextc) {
-		if(p->flag==0) { //×Ó¾äÃ»ÓĞ±»É¾³ı
-			if(p->number==1)//×Ó¾äÎÄ×ÖÊıÎª1;
+		if(p->flag==0) { //å­å¥æ²¡æœ‰è¢«åˆ é™¤
+			if(p->number==1)//å­å¥æ–‡å­—æ•°ä¸º1;
 				for (t=p->sentence; t!=NULL; t=t->nextl) {
-					if (t->flag==EXIST)//ÎÄ×ÖÃ»ÓĞ±»É¾³ı
+					if (t->flag==EXIST)//æ–‡å­—æ²¡æœ‰è¢«åˆ é™¤
 						return t;
 				}
 
@@ -380,27 +380,27 @@ Clause * HasUnitClause_Before(Root *r) {
 return NULL;
 }
 
-/*ÅĞ¶Ï²ÎÊıÖ¸ÕëcÖ¸ÏòµÄ×Ó¾äÍ·½áµã¶ÔÓ¦×Ó¾äÊÇ·ñÎªµ¥×Ó¾ä£»
- ·µ»ØÖµ£ºTRUE£ºÊÇµ¥×Ó¾ä£»
-       ERROR£º²»ÊÇµ¥×Ó¾ä*/
+/*åˆ¤æ–­å‚æ•°æŒ‡é’ˆcæŒ‡å‘çš„å­å¥å¤´ç»“ç‚¹å¯¹åº”å­å¥æ˜¯å¦ä¸ºå•å­å¥ï¼›
+ è¿”å›å€¼ï¼šTRUEï¼šæ˜¯å•å­å¥ï¼›
+       ERRORï¼šä¸æ˜¯å•å­å¥*/
 status isUnitClause(Paradigm *c) {
 	if (c->number==1)
 		return TRUE;
 	else return FALSE;
 }
 
-/*ÔÚÕû¸öCNF¹«Ê½ÖĞÈ¡Ò»¸öÎÄ×Ö*/
+/*åœ¨æ•´ä¸ªCNFå…¬å¼ä¸­å–ä¸€ä¸ªæ–‡å­—*/
 
-/*way1: È¡Ã¿´ÎDPLL´¦Àíºó¹«Ê½ÖĞ³öÏÖ´ÎÊı×î¶à£¨Occur_TimesÖµ×î´ó£©µÄÎÄ×Ö
- ·µ»ØÀàĞÍ£ºint
- ·µ»ØÖµ£º¹«Ê½·Ç¿Õ£ºÑ¡ÖĞÎÄ×ÖµÄÖµ
-       ¹«Ê½ÖĞÃ»ÓĞÊ£ÓàÎÄ×Ö£º0*/
+/*way1: å–æ¯æ¬¡DPLLå¤„ç†åå…¬å¼ä¸­å‡ºç°æ¬¡æ•°æœ€å¤šï¼ˆOccur_Timeså€¼æœ€å¤§ï¼‰çš„æ–‡å­—
+ è¿”å›ç±»å‹ï¼šint
+ è¿”å›å€¼ï¼šå…¬å¼éç©ºï¼šé€‰ä¸­æ–‡å­—çš„å€¼
+       å…¬å¼ä¸­æ²¡æœ‰å‰©ä½™æ–‡å­—ï¼š0*/
 int FindLiteral1(Root *r) {
 	int i,num=0,flag=0;
 	for (i=1; i<=r->litsize; i++) {
 		if (ValueList[i].IsInit==0) {
-			num=i;//ÕÒµ½±äÔª±íÕıĞòµÚÒ»¸öÎ´±»¸³ÕæÖµµÄ±äÔª£¬num¼ÇÂ¼ÆäĞòºÅ
-			flag=1;//±íÊ¾±äÔª±íÄÚ´æÔÚÎ´±»¸³ÕæÖµµÄ±äÔª
+			num=i;//æ‰¾åˆ°å˜å…ƒè¡¨æ­£åºç¬¬ä¸€ä¸ªæœªè¢«èµ‹çœŸå€¼çš„å˜å…ƒï¼Œnumè®°å½•å…¶åºå·
+			flag=1;//è¡¨ç¤ºå˜å…ƒè¡¨å†…å­˜åœ¨æœªè¢«èµ‹çœŸå€¼çš„å˜å…ƒ
 			break;
 		}
 	}
@@ -412,14 +412,14 @@ int FindLiteral1(Root *r) {
 			}
 		}
 	}
-	return num;//·µ»Ø±äÔª±íÀï³öÏÖ×î¶àµÄÎ´¸³Öµ±äÔªĞòºÅ
+	return num;//è¿”å›å˜å…ƒè¡¨é‡Œå‡ºç°æœ€å¤šçš„æœªèµ‹å€¼å˜å…ƒåºå·
 }
 
-/*way2:È¡Ô­¹«Ê½ÖĞÎ´¸³ÕæÖµµÄ±äÔªÖĞ³öÏÖ´ÎÊı×î¶à£¨Occur_Times×î´ó£©µÄ±äÔªÕıÎÄ×Ö
- ·µ»ØÀàĞÍ£ºint
- ·µ»ØÖµ£º¹«Ê½·Ç¿Õ£ºÑ¡ÖĞÎÄ×ÖµÄÖµ
-       ¹«Ê½ÖĞÃ»ÓĞÊ£ÓàÎÄ×Ö£º0*/
-int FindLiteral2(Root *r) {//frequency  ½µĞò¼ÇÂ¼³öÏÖ´ÎÊıµÄ¶àµÄĞòºÅ
+/*way2:å–åŸå…¬å¼ä¸­æœªèµ‹çœŸå€¼çš„å˜å…ƒä¸­å‡ºç°æ¬¡æ•°æœ€å¤šï¼ˆOccur_Timesæœ€å¤§ï¼‰çš„å˜å…ƒæ­£æ–‡å­—
+ è¿”å›ç±»å‹ï¼šint
+ è¿”å›å€¼ï¼šå…¬å¼éç©ºï¼šé€‰ä¸­æ–‡å­—çš„å€¼
+       å…¬å¼ä¸­æ²¡æœ‰å‰©ä½™æ–‡å­—ï¼š0*/
+int FindLiteral2(Root *r) {//frequency  é™åºè®°å½•å‡ºç°æ¬¡æ•°çš„å¤šçš„åºå·
 	int i=0;
 	for (i=0; i<r->litsize; i++) {
 		if (ValueList[Frequency[i]].IsInit==0) {
@@ -429,17 +429,17 @@ int FindLiteral2(Root *r) {//frequency  ½µĞò¼ÇÂ¼³öÏÖ´ÎÊıµÄ¶àµÄĞòºÅ
 	return 0;
 }
 
-/*way3:È¡×Ó¾äÖĞµÚÒ»¸öÎ´±»É¾³ı£¨flagÎª0£©µÄÎÄ×Ö
- ·µ»ØÀàĞÍ£ºint
- ·µ»ØÖµ£º¹«Ê½·Ç¿Õ£ºÑ¡ÖĞÎÄ×ÖµÄÖµ
- ¹«Ê½ÖĞÃ»ÓĞÊ£ÓàÎÄ×Ö£º0*/
+/*way3:å–å­å¥ä¸­ç¬¬ä¸€ä¸ªæœªè¢«åˆ é™¤ï¼ˆflagä¸º0ï¼‰çš„æ–‡å­—
+ è¿”å›ç±»å‹ï¼šint
+ è¿”å›å€¼ï¼šå…¬å¼éç©ºï¼šé€‰ä¸­æ–‡å­—çš„å€¼
+ å…¬å¼ä¸­æ²¡æœ‰å‰©ä½™æ–‡å­—ï¼š0*/
 int FindLiteral3(Root *r){
     Paradigm *p;
     Clause *c;
     for (p=r->first; p!=NULL; p=p->nextc)
-        if (p->flag==EXIST) {//×Ó¾äÎ´±»É¾³ı
+        if (p->flag==EXIST) {//å­å¥æœªè¢«åˆ é™¤
             for (c=p->sentence; c!=NULL; c=c->nextl) {
-                if (c->flag==EXIST) {//ÎÄ×ÖÎ´±»É¾³ı
+                if (c->flag==EXIST) {//æ–‡å­—æœªè¢«åˆ é™¤
                     return c->literal;
                 }
             }
@@ -447,10 +447,10 @@ int FindLiteral3(Root *r){
     return 0;
 }
 
-/*way4: È¡±äÔª±íÕıĞòÕıĞòµÚÒ»¸öÎ´¸³ÕæÖµ£¨IsInit=0£©µÄ±äÔªµÄÕıÎÄ×Ö
- ·µ»ØÀàĞÍ£ºint
- ·µ»ØÖµ£º¹«Ê½·Ç¿Õ£ºÑ¡ÖĞÎÄ×ÖµÄÖµ
-       ¹«Ê½ÖĞÃ»ÓĞÊ£ÓàÎÄ×Ö£º0*/
+/*way4: å–å˜å…ƒè¡¨æ­£åºæ­£åºç¬¬ä¸€ä¸ªæœªèµ‹çœŸå€¼ï¼ˆIsInit=0ï¼‰çš„å˜å…ƒçš„æ­£æ–‡å­—
+ è¿”å›ç±»å‹ï¼šint
+ è¿”å›å€¼ï¼šå…¬å¼éç©ºï¼šé€‰ä¸­æ–‡å­—çš„å€¼
+       å…¬å¼ä¸­æ²¡æœ‰å‰©ä½™æ–‡å­—ï¼š0*/
 int FindLiteral4(Root *r){
     int i=0;
     for (i=1; i<=r->litsize; i++) {
@@ -461,10 +461,10 @@ int FindLiteral4(Root *r){
     return 0;
 }
 
-/*ÔÚÕû¸öCNF¹«Ê½ÖĞÈ¡Ò»¸öÎÄ×Ö£¨ÓÅ»¯Ç°°æ±¾£©£ºÈ¡×Ó¾äÖĞµÚÒ»¸öÎ´±»É¾³ı£¨flagÎª0£©µÄÎÄ×Ö
- ·µ»ØÀàĞÍ£ºClause *
- ·µ»ØÖµ£º¹«Ê½·Ç¿Õ£ºÑ¡ÖĞÎÄ×ÖµÄ½áµãÖ¸Õë
-       ¹«Ê½ÖĞÃ»ÓĞÊ£ÓàÎÄ×Ö£ºNULL*/
+/*åœ¨æ•´ä¸ªCNFå…¬å¼ä¸­å–ä¸€ä¸ªæ–‡å­—ï¼ˆä¼˜åŒ–å‰ç‰ˆæœ¬ï¼‰ï¼šå–å­å¥ä¸­ç¬¬ä¸€ä¸ªæœªè¢«åˆ é™¤ï¼ˆflagä¸º0ï¼‰çš„æ–‡å­—
+ è¿”å›ç±»å‹ï¼šClause *
+ è¿”å›å€¼ï¼šå…¬å¼éç©ºï¼šé€‰ä¸­æ–‡å­—çš„ç»“ç‚¹æŒ‡é’ˆ
+       å…¬å¼ä¸­æ²¡æœ‰å‰©ä½™æ–‡å­—ï¼šNULL*/
 Clause * FindLiteral_Before(Root *r) {
 	Paradigm *p;
 	Clause *c;
@@ -480,23 +480,23 @@ Clause * FindLiteral_Before(Root *r) {
 	return NULL;
 }
 
-/*É¾³ıº¬²ÎÊılµÄ×Ó¾ä
- ²ÎÊıl£ºÕæÖµÎª1µÄÎÄ×Ö£¨int£©
-  (´Ëº¯Êı²»Ó¦Ê¹¹«Ê½ÖĞµÄ×Ó¾äÊıÁ¿¼õÉÙ£©*///paradigmÖĞnum²»»á±ä
-status DeleteClause(Root *r,int l) {//¸Ä±äÎÄ×ÖÖĞµÄflag£¬×Ó¾äÍ·½ÚµãµÄnum£¬ValuelistÀïµÄ³öÏÖÊıÄ¿
+/*åˆ é™¤å«å‚æ•°lçš„å­å¥
+ å‚æ•°lï¼šçœŸå€¼ä¸º1çš„æ–‡å­—ï¼ˆintï¼‰
+  (æ­¤å‡½æ•°ä¸åº”ä½¿å…¬å¼ä¸­çš„å­å¥æ•°é‡å‡å°‘ï¼‰*///paradigmä¸­numä¸ä¼šå˜
+status DeleteClause(Root *r,int l) {//æ”¹å˜æ–‡å­—ä¸­çš„flagï¼Œå­å¥å¤´èŠ‚ç‚¹çš„numï¼ŒValuelisté‡Œçš„å‡ºç°æ•°ç›®
 	int l1;
 	Paradigm *p;
 	Clause *c;
 	Paraline *pline;
 	l1=abs(l);
 	if(l>0) {
-		//lÎªÕıÎÄ×ÖÇé¿ö£¬ËÑË÷l¶ÔÓ¦±äÔªµÄÕıÎÄ×ÖĞÅÏ¢Á´±í
+		//lä¸ºæ­£æ–‡å­—æƒ…å†µï¼Œæœç´¢lå¯¹åº”å˜å…ƒçš„æ­£æ–‡å­—ä¿¡æ¯é“¾è¡¨
 		for(pline=ValueList[l1].Pos.Tra_cla; pline; pline=pline->next) {
 			p=pline->claline;
-			if(p->flag==EXIST) { //pÖ¸ÏòµÄ×Ó¾äÍ·½áµã¶ÔÓ¦×Ó¾äÎ´±»É¾³ı
-				p->flag=l1;//½«pÖ¸Ïò½áµãµÄflagÖµ±ê¼ÇÎªl£¬±íÊ¾¸Ã×Ó¾äÒòÎÄ×ÖlÕæÖµÎª1¶ø±»É¾³ı
+			if(p->flag==EXIST) { //pæŒ‡å‘çš„å­å¥å¤´ç»“ç‚¹å¯¹åº”å­å¥æœªè¢«åˆ é™¤
+				p->flag=l1;//å°†pæŒ‡å‘ç»“ç‚¹çš„flagå€¼æ ‡è®°ä¸ºlï¼Œè¡¨ç¤ºè¯¥å­å¥å› æ–‡å­—lçœŸå€¼ä¸º1è€Œè¢«åˆ é™¤
 				r->parasize--;
-				for (c=p->sentence; c!=NULL; c=c->nextl)//ÒÀ´ÎĞŞ¸ÄpÖ¸Ïò×Ó¾äµÄflag±ê¼ÇÖµ
+				for (c=p->sentence; c!=NULL; c=c->nextl)//ä¾æ¬¡ä¿®æ”¹pæŒ‡å‘å­å¥çš„flagæ ‡è®°å€¼
 					if (c->flag==EXIST) {
 						c->flag=l1;
 						ValueList[abs(c->literal)].Occur_times--;
@@ -505,7 +505,7 @@ status DeleteClause(Root *r,int l) {//¸Ä±äÎÄ×ÖÖĞµÄflag£¬×Ó¾äÍ·½ÚµãµÄnum£¬Valueli
 			}
 		}
 	} else {
-		//lÎª¸ºÎÄ×ÖÇé¿ö£¬ËÑË÷l¶ÔÓ¦±äÔªµÄ¸ºÎÄ×ÖĞÅÏ¢Á´±í
+		//lä¸ºè´Ÿæ–‡å­—æƒ…å†µï¼Œæœç´¢lå¯¹åº”å˜å…ƒçš„è´Ÿæ–‡å­—ä¿¡æ¯é“¾è¡¨
 		for (pline=ValueList[l1].Neg.Tra_cla; pline!=NULL; pline=pline->next) {
 			p=pline->claline;
 			if (p->flag==0) {
@@ -523,28 +523,28 @@ status DeleteClause(Root *r,int l) {//¸Ä±äÎÄ×ÖÖĞµÄflag£¬×Ó¾äÍ·½ÚµãµÄnum£¬Valueli
 	return OK;
 }
 
-/*É¾³ıËùÓĞÎÄ×ÖÎª-lµÄ×Ó¾äÁ´±í½áµã
- ²ÎÊıl£º(int)ÕæÖµÎª1µÄÎÄ×Ö£»
- ·µ»ØÖµ£ºOK£º³É¹¦É¾³ıÎÄ×Ö£»
-       FALSE£º¹«Ê½ÎŞ½â
- (´Ëº¯Êı²»Ó¦Ê¹¹«Ê½ÖĞµÄ×Ó¾äÊıÁ¿¼õÉÙ£©*/
+/*åˆ é™¤æ‰€æœ‰æ–‡å­—ä¸º-lçš„å­å¥é“¾è¡¨ç»“ç‚¹
+ å‚æ•°lï¼š(int)çœŸå€¼ä¸º1çš„æ–‡å­—ï¼›
+ è¿”å›å€¼ï¼šOKï¼šæˆåŠŸåˆ é™¤æ–‡å­—ï¼›
+       FALSEï¼šå…¬å¼æ— è§£
+ (æ­¤å‡½æ•°ä¸åº”ä½¿å…¬å¼ä¸­çš„å­å¥æ•°é‡å‡å°‘ï¼‰*/
 status DeleteLiteral(Root *r,int l) {
 	Paradigm *p;
 	Clause *c;
 	Paraline *pline;
 	int l1,l_op;
 	l1=abs(l);
-	l_op=0-l;//ÒªÉ¾³ıµÄÎÄ×Ö
+	l_op=0-l;//è¦åˆ é™¤çš„æ–‡å­—
 	if (l>0) {
 		for (pline=ValueList[l1].Neg.Tra_cla; pline!=NULL; pline=pline->next) {
 			p=pline->claline;
-			if (p->flag==EXIST) {//pÖ¸ÏòµÄ×Ó¾äÁ´±íÍ·½áµã¶ÔÓ¦µÄ×Ó¾äÎ´±»É¾³ı
+			if (p->flag==EXIST) {//pæŒ‡å‘çš„å­å¥é“¾è¡¨å¤´ç»“ç‚¹å¯¹åº”çš„å­å¥æœªè¢«åˆ é™¤
 				for (c=p->sentence; c!=NULL; c=c->nextl) {
 					if (c->literal==l_op) {
-						if (c->flag==EXIST) {//cÖ¸Ïò×Ó¾äÁ´±í½áµãÄÚÎÄ×ÖÎ´±»É¾³ı
-							if (p->number==1) return FALSE;//ÒªÉ¾³ıµÄÎÄ×ÖÎªµ±Ç°×Ó¾äÄÚµÄÎ¨Ò»ÎÄ×Ö£¬¸Ã×Ó¾äÕæÖµÎª0£¬¹«Ê½ÎŞ½â
-							c->flag=l1;//±ê¼Ç¸Ã½áµãÄÚflagÖµÎªl1£¬±íÊ¾ÒòlÕæÖµÎª1¶ø±»É¾³ı
-							ValueList[abs(c->literal)].Occur_times--;//±äÔª±íÄÚ¸Ã±äÔª³öÏÖµÄ´ÎÊı¼õÒ»
+						if (c->flag==EXIST) {//cæŒ‡å‘å­å¥é“¾è¡¨ç»“ç‚¹å†…æ–‡å­—æœªè¢«åˆ é™¤
+							if (p->number==1) return FALSE;//è¦åˆ é™¤çš„æ–‡å­—ä¸ºå½“å‰å­å¥å†…çš„å”¯ä¸€æ–‡å­—ï¼Œè¯¥å­å¥çœŸå€¼ä¸º0ï¼Œå…¬å¼æ— è§£
+							c->flag=l1;//æ ‡è®°è¯¥ç»“ç‚¹å†…flagå€¼ä¸ºl1ï¼Œè¡¨ç¤ºå› lçœŸå€¼ä¸º1è€Œè¢«åˆ é™¤
+							ValueList[abs(c->literal)].Occur_times--;//å˜å…ƒè¡¨å†…è¯¥å˜å…ƒå‡ºç°çš„æ¬¡æ•°å‡ä¸€
 							p->number--;
 						}
 					}
@@ -571,10 +571,10 @@ status DeleteLiteral(Root *r,int l) {
 	return OK;
 }
 
-/*ÔÚCNF·¶Ê½ÁÚ½ÓÁ´±í±íÍ·Ìí¼ÓÖ»º¬ÓĞÎÄ×ÖlµÄµ¥×Ó¾äÁ´±í
- ²ÎÊıl£º(int)Ôö¼ÓµÄµ¥×Ó¾äÄÚµÄÎ¨Ò»ÎÄ×Ö
- ·µ»ØÖµ£ºOVERFLOW£º¿Õ¼ä²»×ãÒç³ö£»
-        OK£º×Ó¾äÔö¼Ó³É¹¦*/
+/*åœ¨CNFèŒƒå¼é‚»æ¥é“¾è¡¨è¡¨å¤´æ·»åŠ åªå«æœ‰æ–‡å­—lçš„å•å­å¥é“¾è¡¨
+ å‚æ•°lï¼š(int)å¢åŠ çš„å•å­å¥å†…çš„å”¯ä¸€æ–‡å­—
+ è¿”å›å€¼ï¼šOVERFLOWï¼šç©ºé—´ä¸è¶³æº¢å‡ºï¼›
+        OKï¼šå­å¥å¢åŠ æˆåŠŸ*/
 status AddClause(Root *r,int l) {
 	Paradigm *p;
 	Clause *c;
@@ -590,7 +590,7 @@ status AddClause(Root *r,int l) {
 	c->nextl=NULL;
 	l1=abs(l);
 	if (l>0) {
-		//lÎªÕıÎÄ×Ö£¬ÔÚ±äÔª±íÄÚl¶ÔÓ¦±äÔªµÄÕıÎÄ×ÖĞÅÏ¢Á´±í±íÍ·Ôö¼ÓĞÂÔö½áµãĞÅÏ¢
+		//lä¸ºæ­£æ–‡å­—ï¼Œåœ¨å˜å…ƒè¡¨å†…lå¯¹åº”å˜å…ƒçš„æ­£æ–‡å­—ä¿¡æ¯é“¾è¡¨è¡¨å¤´å¢åŠ æ–°å¢ç»“ç‚¹ä¿¡æ¯
 		c->litline=ValueList[l1].Pos.Tra_lit;
 		ValueList[l1].Pos.Tra_lit=c;
 		pline=(Paraline*)malloc(sizeof(Paraline));
@@ -598,7 +598,7 @@ status AddClause(Root *r,int l) {
 		pline->next=ValueList[l1].Pos.Tra_cla;
 		ValueList[l1].Pos.Tra_cla=pline;
 	} else {
-		//lÎª¸ºÎÄ×Ö£¬ÔÚ±äÔª±íÄÚl¶ÔÓ¦±äÔªµÄ¸ºÎÄ×ÖĞÅÏ¢Á´±í±íÍ·Ôö¼ÓĞÂÔö½áµãĞÅÏ¢
+		//lä¸ºè´Ÿæ–‡å­—ï¼Œåœ¨å˜å…ƒè¡¨å†…lå¯¹åº”å˜å…ƒçš„è´Ÿæ–‡å­—ä¿¡æ¯é“¾è¡¨è¡¨å¤´å¢åŠ æ–°å¢ç»“ç‚¹ä¿¡æ¯
 		c->litline=ValueList[l1].Neg.Tra_lit;
 		ValueList[l1].Neg.Tra_lit=c;
 		pline=(Paraline*)malloc(sizeof(Paraline));
@@ -614,9 +614,9 @@ status AddClause(Root *r,int l) {
 	return OK;
 }
 
-/*É¾³ıCNF·¶Ê½ÁÚ½ÓÁ´±íÖĞ´Ó±íÍ·¿ªÊ¼µÚÒ»¸öÖ»º¬ÓĞÎÄ×ÖlµÄµ¥×Ó¾äÁ´±í
- ²ÎÊıl£º(int)ÒªÉ¾³ıµÄµ¥×Ó¾äµÄÎ¨Ò»ÎÄ×ÖÖµ£»
- ·µ»ØÖµ£ºOK£ºÉ¾³ı³É¹¦*/
+/*åˆ é™¤CNFèŒƒå¼é‚»æ¥é“¾è¡¨ä¸­ä»è¡¨å¤´å¼€å§‹ç¬¬ä¸€ä¸ªåªå«æœ‰æ–‡å­—lçš„å•å­å¥é“¾è¡¨
+ å‚æ•°lï¼š(int)è¦åˆ é™¤çš„å•å­å¥çš„å”¯ä¸€æ–‡å­—å€¼ï¼›
+ è¿”å›å€¼ï¼šOKï¼šåˆ é™¤æˆåŠŸ*/
 status RemoveHeadClaus(Root *r,int l) {
 	Paradigm *p,*q;
 	Clause *c;
@@ -624,13 +624,13 @@ status RemoveHeadClaus(Root *r,int l) {
 	int l1;
 	l1=abs(l);
 	if (l>0) {
-		//lÎªÕıÎÄ×Ö£¬ÒªÉ¾³ıµÄ½áµãĞÅÏ¢±ØÔÚ±äÔª±íÄÚl¶ÔÓ¦±äÔªµÄÕıÎÄ×ÖĞÅÏ¢Á´±í±íÍ·
+		//lä¸ºæ­£æ–‡å­—ï¼Œè¦åˆ é™¤çš„ç»“ç‚¹ä¿¡æ¯å¿…åœ¨å˜å…ƒè¡¨å†…lå¯¹åº”å˜å…ƒçš„æ­£æ–‡å­—ä¿¡æ¯é“¾è¡¨è¡¨å¤´
 		pline=ValueList[l1].Pos.Tra_cla;
 		p=pline->claline;
 		ValueList[l1].Pos.Tra_cla=pline->next;
 		ValueList[l1].Pos.Tra_lit=ValueList[l1].Pos.Tra_lit->litline;
 	} else {
-		//lÎª¸ºÎÄ×Ö£¬ÒªÉ¾³ıµÄ½áµãĞÅÏ¢±ØÔÚ±äÔª±íÄÚl¶ÔÓ¦±äÔªµÄ¸ºÎÄ×ÖĞÅÏ¢Á´±í±íÍ·
+		//lä¸ºè´Ÿæ–‡å­—ï¼Œè¦åˆ é™¤çš„ç»“ç‚¹ä¿¡æ¯å¿…åœ¨å˜å…ƒè¡¨å†…lå¯¹åº”å˜å…ƒçš„è´Ÿæ–‡å­—ä¿¡æ¯é“¾è¡¨è¡¨å¤´
 		pline=ValueList[l1].Neg.Tra_cla;
 		p=pline->claline;
 		ValueList[l1].Neg.Tra_cla=pline->next;
@@ -639,7 +639,7 @@ status RemoveHeadClaus(Root *r,int l) {
 	if (r->first==p) {
 		r->first=p->nextc;
 	} else {
-		for (q=r->first; q!=NULL; q=q->nextc) {//Ñ°ÕÒ´Ó±íÍ·¿ªÊ¼µÚÒ»¸öÖ»º¬ÎÄ×ÖlµÄµ¥×Ó¾ä
+		for (q=r->first; q!=NULL; q=q->nextc) {//å¯»æ‰¾ä»è¡¨å¤´å¼€å§‹ç¬¬ä¸€ä¸ªåªå«æ–‡å­—lçš„å•å­å¥
 			if (q->nextc==p)
 				break;
 		}
@@ -653,9 +653,9 @@ status RemoveHeadClaus(Root *r,int l) {
 	return  OK;
 }
 
-/*»Ö¸´ÈÏÎªÎÄ×ÖlÎªÕæÇ°µÄCNFÁÚ½ÓÁ´±í
- ²ÎÊı£º(int)ÎÄ×Öl:ÕæÖµÎª1Ê±Çó½â³ö´í
- ·µ»ØÖµ£ºOK£ºÁÚ½ÓÁ´±í»Ö¸´³É¹¦*/
+/*æ¢å¤è®¤ä¸ºæ–‡å­—lä¸ºçœŸå‰çš„CNFé‚»æ¥é“¾è¡¨
+ å‚æ•°ï¼š(int)æ–‡å­—l:çœŸå€¼ä¸º1æ—¶æ±‚è§£å‡ºé”™
+ è¿”å›å€¼ï¼šOKï¼šé‚»æ¥é“¾è¡¨æ¢å¤æˆåŠŸ*/
 status RecoverCNF(Root *r,int l) {
 	Paradigm *p;
 	Clause *c;
@@ -663,7 +663,7 @@ status RecoverCNF(Root *r,int l) {
 	int l1;
 	l1=abs(l);
 	if (l>0) {
-		//lÎªÕıÎÄ×Ö£¬¶Ô±äÔªl1µÄÕıÎÄ×ÖĞÅÏ¢Á´±í½øĞĞËÑË÷£¬Ñ°ÕÒ±»É¾³ıµÄ×Ó¾ä
+		//lä¸ºæ­£æ–‡å­—ï¼Œå¯¹å˜å…ƒl1çš„æ­£æ–‡å­—ä¿¡æ¯é“¾è¡¨è¿›è¡Œæœç´¢ï¼Œå¯»æ‰¾è¢«åˆ é™¤çš„å­å¥
 		for(pline=ValueList[l1].Pos.Tra_cla; pline; pline=pline->next) {
 			p=pline->claline;
 			if(p->flag==l1) {
@@ -677,7 +677,7 @@ status RecoverCNF(Root *r,int l) {
 				}
 			}
 		}
-		//lÎªÕıÎÄ×Ö£¬¶Ô±äÔªl1µÄ¸ºÎÄ×ÖĞÅÏ¢Á´±í½øĞĞËÑË÷£¬Ñ°ÕÒ±»É¾³ıµÄÎÄ×Ö
+		//lä¸ºæ­£æ–‡å­—ï¼Œå¯¹å˜å…ƒl1çš„è´Ÿæ–‡å­—ä¿¡æ¯é“¾è¡¨è¿›è¡Œæœç´¢ï¼Œå¯»æ‰¾è¢«åˆ é™¤çš„æ–‡å­—
 		for (pline=ValueList[l1].Neg.Tra_cla; pline!=NULL; pline=pline->next) {
 			p=pline->claline;
 			for (c=p->sentence; c!=NULL; c=c->nextl) {
@@ -688,7 +688,7 @@ status RecoverCNF(Root *r,int l) {
 			}
 		}
 	} else {
-		//lÎª¸ºÎÄ×Ö£¬¶Ô±äÔªl1µÄ¸ºÎÄ×ÖĞÅÏ¢Á´±í½øĞĞËÑË÷£¬Ñ°ÕÒ±»É¾³ıµÄ×Ó¾ä
+		//lä¸ºè´Ÿæ–‡å­—ï¼Œå¯¹å˜å…ƒl1çš„è´Ÿæ–‡å­—ä¿¡æ¯é“¾è¡¨è¿›è¡Œæœç´¢ï¼Œå¯»æ‰¾è¢«åˆ é™¤çš„å­å¥
 		for (pline=ValueList[l1].Neg.Tra_cla; pline!=NULL; pline=pline->next) {
 			p=pline->claline;
 			if (p->flag==l1) {
@@ -702,7 +702,7 @@ status RecoverCNF(Root *r,int l) {
 				}
 			}
 		}
-		//lÎª¸ºÎÄ×Ö£¬¶Ô±äÔªl1µÄÕıÎÄ×ÖĞÅÏ¢Á´±í½øĞĞËÑË÷£¬Ñ°ÕÒ±»É¾³ıµÄÎÄ×Ö
+		//lä¸ºè´Ÿæ–‡å­—ï¼Œå¯¹å˜å…ƒl1çš„æ­£æ–‡å­—ä¿¡æ¯é“¾è¡¨è¿›è¡Œæœç´¢ï¼Œå¯»æ‰¾è¢«åˆ é™¤çš„æ–‡å­—
 		for (pline=ValueList[l1].Pos.Tra_cla; pline!=NULL; pline=pline->next) {
 			p=pline->claline;
 			for (c=p->sentence; c!=NULL; c=c->nextl) {
@@ -716,27 +716,27 @@ status RecoverCNF(Root *r,int l) {
 	return OK;
 }
 
-/*±éÀúCNF·¶Ê½ÁÚ½ÓÁ´±í*/
+/*éå†CNFèŒƒå¼é‚»æ¥é“¾è¡¨*/
 void ParadigmTrabverse(Root *r) {
 	Paradigm *p;
 	Clause *c;
 	int l,value,flag,i=1;
 	for (p=r->first; p!=NULL; p=p->nextc) {
 		flag=0;
-		printf("µÚ%4dĞĞ  ",i++);
+		printf("ç¬¬%4dè¡Œ  ",i++);
 		for (c=p->sentence; c!=NULL; c=c->nextl) {
 			printf("%4d  ",c->literal);
 		}
 		printf("\n");
 	}
-	printf("±éÀúÍê±Ï£¡\n");
+	printf("éå†å®Œæ¯•ï¼\n");
 }
 
-/*±£´æCNF·¶Ê½µÄ½â¼°Çó½âÊ±¼äĞÅÏ¢
- ²ÎÊı£º(int)solut£ºCNF¹«Ê½µÄ½â£¬ÓĞ½âÎª1£¬ÎŞ½âÎª0£»
-      (int)time:DPLLÇó½âÊ±¼ä£»
- ·µ»ØÖµ£ºERROR£ºÎÄ¼ş´ò¿ªÊ§°Ü£»
-        OK£º½âºÍÊ±¼ä´æ´¢³É¹¦*/
+/*ä¿å­˜CNFèŒƒå¼çš„è§£åŠæ±‚è§£æ—¶é—´ä¿¡æ¯
+ å‚æ•°ï¼š(int)solutï¼šCNFå…¬å¼çš„è§£ï¼Œæœ‰è§£ä¸º1ï¼Œæ— è§£ä¸º0ï¼›
+      (int)time:DPLLæ±‚è§£æ—¶é—´ï¼›
+ è¿”å›å€¼ï¼šERRORï¼šæ–‡ä»¶æ‰“å¼€å¤±è´¥ï¼›
+        OKï¼šè§£å’Œæ—¶é—´å­˜å‚¨æˆåŠŸ*/
 status SaveValue(ArgueValue *ValueList,int solut,int time) {
 	int i=0;
 	FILE *save;
@@ -750,7 +750,7 @@ status SaveValue(ArgueValue *ValueList,int solut,int time) {
 	filenamesave[i++]='\0';
 	save=fopen(filenamesave, "wb");
 	if (save==NULL) {
-		printf("ÎÄ¼ş´ò¿ªÊ§°Ü£¡\n");
+		printf("æ–‡ä»¶æ‰“å¼€å¤±è´¥ï¼\n");
 		return ERROR;
 	}
 	if(solut==1) {
@@ -776,28 +776,28 @@ status SaveValue(ArgueValue *ValueList,int solut,int time) {
 	return OK;
 }
 
-/*------------------------DPLLËã·¨------------------------*/
+/*------------------------DPLLç®—æ³•------------------------*/
 
 
 
 
 status SAT(void) {
-	int op=1;//¼ÇÂ¼Ñ¡ÔñµÄ²Ù×÷ĞòºÅ
-	int choose;//¼ÇÂ¼Ñ¡ÔñµÄËã·¨ĞòºÅ
-	int i=0,solut=0;//solut¼ÇÂ¼CNF¹«Ê½ÊÇ·ñÓĞ½â£¬ÓĞ½âÎª1£¬ÎŞ½âÎª0
-	clock_t start = 0,finish = 0;//¼ÇÂ¼DPLLº¯Êıµ÷ÓÃµÄÆğÊ¼ºÍÖÕÖ¹Ê±¼ä
-	int duration=0;//¼ÇÂ¼SATÇó½âÊ±¼ä
+	int op=1;//è®°å½•é€‰æ‹©çš„æ“ä½œåºå·
+	int choose;//è®°å½•é€‰æ‹©çš„ç®—æ³•åºå·
+	int i=0,solut=0;//solutè®°å½•CNFå…¬å¼æ˜¯å¦æœ‰è§£ï¼Œæœ‰è§£ä¸º1ï¼Œæ— è§£ä¸º0
+	clock_t start = 0,finish = 0;//è®°å½•DPLLå‡½æ•°è°ƒç”¨çš„èµ·å§‹å’Œç»ˆæ­¢æ—¶é—´
+	int duration=0;//è®°å½•SATæ±‚è§£æ—¶é—´
 	FILE *open;
-	printf("ÇëÊäÈëĞèÇó½âµÄcnfÎÄ¼şÃû£º");
+	printf("è¯·è¾“å…¥éœ€æ±‚è§£çš„cnfæ–‡ä»¶åï¼š");
 	scanf("%s",filename);
 	open=fopen(filename, "r");
 	if (open==NULL) {
-		printf("ÎÄ¼ş´ò¿ª´íÎó£¡\n");
+		printf("æ–‡ä»¶æ‰“å¼€é”™è¯¯ï¼\n");
 		getchar();
 		getchar();
 		return ERROR;
 	}
-	if (CreateParadigm(&open)==ERROR) {//Éú³ÉCNF¹«Ê½Êı¾İ´æ´¢½á¹¹
+	if (CreateParadigm(&open)==ERROR) {//ç”ŸæˆCNFå…¬å¼æ•°æ®å­˜å‚¨ç»“æ„
 		getchar();
 		getchar();
 		return ERROR;
@@ -809,19 +809,19 @@ status SAT(void) {
 		system("cls");
 		printf("\t\tChoose an option please.\n");
 		printf("---------------------------------------------------------\n");
-		printf("  1.Çó½â¸ÃËãÀı   2.±éÀúCNFÎÄ¼ş   3.±£´æÇó½â½á¹û\n");
-		printf("  0.ÍË³ö\n");
+		printf("  1.æ±‚è§£è¯¥ç®—ä¾‹   2.éå†CNFæ–‡ä»¶   3.ä¿å­˜æ±‚è§£ç»“æœ\n");
+		printf("  0.é€€å‡º\n");
 		printf("---------------------------------------------------------\n");
 		scanf("%d",&op);
 		switch (op) {
 			case 1:
 				if (ValueList[1].IsInit==1) {
-					printf("ÒÑ¶Ô¹«Ê½Çó½â£¡");
+					printf("å·²å¯¹å…¬å¼æ±‚è§£ï¼");
 					getchar();
 					getchar();
 					break;
 				}
-				printf(" Ê¹ÓÃ£º1.ÓÅ»¯1Ëã·¨       2.ÓÅ»¯2Ëã·¨        3.ÓÅ»¯Ç°Ëã·¨\n");
+				printf(" ä½¿ç”¨ï¼š1.ä¼˜åŒ–1ç®—æ³•       2.ä¼˜åŒ–2ç®—æ³•        3.ä¼˜åŒ–å‰ç®—æ³•\n");
 				scanf("%d",&choose);
 				switch (choose) {
 					case 1:
@@ -843,7 +843,7 @@ status SAT(void) {
 						duration=(finish-start);
 						break;
 					default:
-						printf("ÊäÈë´íÎó£¡\n");
+						printf("è¾“å…¥é”™è¯¯ï¼\n");
 						break;
 				}
 				if (solut) {
@@ -856,68 +856,68 @@ status SAT(void) {
 						}
 						if(i%10==0) printf("\n");
 					}
-				} else  printf("¸Ã¹«Ê½ÎŞ½â£¡\n");
-				printf("\n¼ÆËãÊ±¼äÎª£º%d ms\n",(finish-start));
+				} else  printf("è¯¥å…¬å¼æ— è§£ï¼\n");
+				printf("\nè®¡ç®—æ—¶é—´ä¸ºï¼š%ld ms\n",(finish-start));
 				getchar();
 				getchar();
 				break;
 			case 2:
 				if (solut==NO_RESULT) {
-					printf("ÇëÏÈÇó½âCNF¹«Ê½£¡\n");
+					printf("è¯·å…ˆæ±‚è§£CNFå…¬å¼ï¼\n");
 					getchar();
 					getchar();
 					break;
 				}
 				ParadigmTrabverse(r);
 				if (AnswerCheck(solut)==OK) {
-					printf("¹«Ê½±éÀúÍê³É£¡\n");
+					printf("å…¬å¼éå†å®Œæˆï¼\n");
 				} else {
-					printf("ERROR£¡\n");
+					printf("ERRORï¼\n");
 				}
 				getchar();
 				getchar();
 				break;
 			case 3:
 				if (solut==NO_RESULT) {
-					printf("ÇëÏÈÇó½âCNF¹«Ê½£¡\n");
+					printf("è¯·å…ˆæ±‚è§£CNFå…¬å¼ï¼\n");
 					getchar();
 					getchar();
 					break;
 				}
 				if (SaveValue(ValueList,solut,duration))
-					printf("³É¹¦´æÈëÎÄ¼ş£¡");
+					printf("æˆåŠŸå­˜å…¥æ–‡ä»¶ï¼");
 				getchar();
 				getchar();
 				break;
 			case 0:
 				break;
 			default:
-				printf("ÊäÈë´íÎó£¡");
+				printf("è¾“å…¥é”™è¯¯ï¼");
 				getchar();
 				getchar();
 				break;
 		}
 	}
-	DestroyParadigm(r);//Ïú»ÙCNF¹«Ê½Êı¾İ´æ´¢½á¹¹
+	DestroyParadigm(r);//é”€æ¯CNFå…¬å¼æ•°æ®å­˜å‚¨ç»“æ„
 	return OK;
 }
 
 
-/*²ÉÓÃµÚÒ»ÖÖ±äÔªÑ¡È¡²ßÂÔµÄµİ¹éËã·¨DPLLº¯Êı
- ²ÎÊı£º(int)num£º¸Ã´Î½øÈëº¯ÊıÕæÖµÉèÎª1µÄ±äÔªĞòºÅ£»
-      (int)op£ºÆÕÍ¨Çó½âcnfÎÄ¼şÎª1£¬Éú³ÉÊı¶ÀÖÕÅÌÎª2£»
-      (int)timesofDPLL£ºµÚÒ»´Î½øÈëDPLLº¯ÊıÎª1£¬ÆäºóÎª2£»
- ·µ»ØÖµ£ºFALSE£º¹«Ê½ÎŞ½â£»
-       TRUE£º¹«Ê½ÓĞ½â*/
+/*é‡‡ç”¨ç¬¬ä¸€ç§å˜å…ƒé€‰å–ç­–ç•¥çš„é€’å½’ç®—æ³•DPLLå‡½æ•°
+ å‚æ•°ï¼š(int)numï¼šè¯¥æ¬¡è¿›å…¥å‡½æ•°çœŸå€¼è®¾ä¸º1çš„å˜å…ƒåºå·ï¼›
+      (int)opï¼šæ™®é€šæ±‚è§£cnfæ–‡ä»¶ä¸º1ï¼Œç”Ÿæˆæ•°ç‹¬ç»ˆç›˜ä¸º2ï¼›
+      (int)timesofDPLLï¼šç¬¬ä¸€æ¬¡è¿›å…¥DPLLå‡½æ•°ä¸º1ï¼Œå…¶åä¸º2ï¼›
+ è¿”å›å€¼ï¼šFALSEï¼šå…¬å¼æ— è§£ï¼›
+       TRUEï¼šå…¬å¼æœ‰è§£*/
 status DPLL1(int num,int op,int timesofDPLL) {
 	int l,i;
 	Clause *c;
 	Paradigm *p=r->first;
 	Paraline *pline;
 	i=0;
-	/*µ¥×Ó¾ä²ßÂÔ*/
+	/*å•å­å¥ç­–ç•¥*/
 	if (timesofDPLL==1) {
-		l=0;//µÚÒ»´Î½øÈëDPLLº¯Êı£¬²»½øÈëµ¥×Ó¾äÑ­»·
+		l=0;//ç¬¬ä¸€æ¬¡è¿›å…¥DPLLå‡½æ•°ï¼Œä¸è¿›å…¥å•å­å¥å¾ªç¯
 	} else {
 		if (op==1)
 			l=num;
@@ -927,8 +927,8 @@ status DPLL1(int num,int op,int timesofDPLL) {
 	while (l!=0) {
 		stack[++instacksize]=l;
 		DeleteClause(r, l);
-		if (DeleteLiteral(r, l)==FALSE) { //É¾³ı×Ó¾äÖĞÎÄ×ÖlµÄ·´ÎÄ×Ö
-			//ÈçÌ½²âºó¹«Ê½ÎŞ½â£¬»Ö¸´µİ¹é½øÈë±¾´Îº¯ÊıÇ°µÄÁÚ½ÓÁ´±í×´Ì¬
+		if (DeleteLiteral(r, l)==FALSE) { //åˆ é™¤å­å¥ä¸­æ–‡å­—lçš„åæ–‡å­—
+			//å¦‚æ¢æµ‹åå…¬å¼æ— è§£ï¼Œæ¢å¤é€’å½’è¿›å…¥æœ¬æ¬¡å‡½æ•°å‰çš„é‚»æ¥é“¾è¡¨çŠ¶æ€
 			for (; stack[instacksize]!=num; instacksize--) {
 				RecoverCNF(r, stack[instacksize]);
 				ValueList[abs(stack[instacksize])].IsInit=0;
@@ -939,15 +939,15 @@ status DPLL1(int num,int op,int timesofDPLL) {
 			return FALSE;
 		}
 		if (l>0) {
-			ValueList[l].Value=1;//ÕæÖµÉèÖÃÎª1
-			ValueList[l].IsInit=1;//±ê¼ÇÒÑ¾­¸³Öµ
+			ValueList[l].Value=1;//çœŸå€¼è®¾ç½®ä¸º1
+			ValueList[l].IsInit=1;//æ ‡è®°å·²ç»èµ‹å€¼
 		} else {
-			ValueList[0-l].Value=0;//ÕæÖµÉèÖÃÎª0
-			ValueList[0-l].IsInit=1;//±ê¼ÇÒÑ¾­¸³Öµ
+			ValueList[0-l].Value=0;//çœŸå€¼è®¾ç½®ä¸º0
+			ValueList[0-l].IsInit=1;//æ ‡è®°å·²ç»èµ‹å€¼
 		}
 		if (FindLiteral1(r)==0)
-			return TRUE;//¹«Ê½ÖĞÃ»ÓĞÊ£ÓàµÄÎª¸³ÕæÖµµÄ±äÔª£¬Çó½â³É¹¦
-		l=HasUnitClause(r);//Ñ°ÕÒ¹«Ê½ÖĞµÄµ¥×Ó¾ä²¢½«ÆäÎÄ×ÖÖµ¸³¸øl
+			return TRUE;//å…¬å¼ä¸­æ²¡æœ‰å‰©ä½™çš„ä¸ºèµ‹çœŸå€¼çš„å˜å…ƒï¼Œæ±‚è§£æˆåŠŸ
+		l=HasUnitClause(r);//å¯»æ‰¾å…¬å¼ä¸­çš„å•å­å¥å¹¶å°†å…¶æ–‡å­—å€¼èµ‹ç»™l
 	}
 	if (op==1) {
 		l=FindLiteral1(r);
@@ -968,16 +968,16 @@ status DPLL1(int num,int op,int timesofDPLL) {
 		}
 	}
 	if (l==0)
-		return TRUE;//¹«Ê½ÖĞÃ»ÓĞÊ£ÓàµÄÎª¸³ÕæÖµµÄ±äÔª£¬Çó½â³É¹¦
+		return TRUE;//å…¬å¼ä¸­æ²¡æœ‰å‰©ä½™çš„ä¸ºèµ‹çœŸå€¼çš„å˜å…ƒï¼Œæ±‚è§£æˆåŠŸ
 	if (DPLL1(l, 1,2)) {
 		return TRUE;
 	}
 
-	l=0-l;//ÉèlÎªÕæÖµÎª1Ê±Ì½²âÇó½âÊ§°Ü£¬¹ÊlÕæÖµÖ»ÄÜÎª0£¬¼´Æä·´ÎÄ×ÖÕæÖµÎª1
+	l=0-l;//è®¾lä¸ºçœŸå€¼ä¸º1æ—¶æ¢æµ‹æ±‚è§£å¤±è´¥ï¼Œæ•…lçœŸå€¼åªèƒ½ä¸º0ï¼Œå³å…¶åæ–‡å­—çœŸå€¼ä¸º1
 	if (DPLL1(l,1,2)==FALSE) {
 		if (instacksize==0)
-			return FALSE; //lÒÑÊÇ±¾´ÎDPLL1º¯ÊıµÚÒ»¸ö½øĞĞÌ½²âµÄ±äÔª£¬Ì½²âÊ§°Ü
-		/*»Ö¸´µİ¹é½øÈë±¾´Îº¯ÊıÇ°µÄÁÚ½ÓÁ´±í×´Ì¬*/
+			return FALSE; //lå·²æ˜¯æœ¬æ¬¡DPLL1å‡½æ•°ç¬¬ä¸€ä¸ªè¿›è¡Œæ¢æµ‹çš„å˜å…ƒï¼Œæ¢æµ‹å¤±è´¥
+		/*æ¢å¤é€’å½’è¿›å…¥æœ¬æ¬¡å‡½æ•°å‰çš„é‚»æ¥é“¾è¡¨çŠ¶æ€*/
 		for (; stack[instacksize]!=num; instacksize--) {
 			RecoverCNF(r, stack[instacksize]);
 			ValueList[abs(stack[instacksize])].IsInit=0;
@@ -990,19 +990,19 @@ status DPLL1(int num,int op,int timesofDPLL) {
 		return TRUE;
 }
 
-/*²ÉÓÃµÚ¶şÖÖ±äÔªÑ¡È¡²ßÂÔµÄµİ¹éËã·¨DPLLº¯Êı
- ²ÎÊı£º(int)num£º¸Ã´Î½øÈëº¯ÊıÕæÖµÉèÎª1µÄ±äÔªĞòºÅ£»
-      (int)op£ºÆÕÍ¨Çó½âcnfÎÄ¼şÎª1£¬Éú³ÉÊı¶ÀÖÕÅÌÎª2£»
-      (int)timesofDPLL£ºµÚÒ»´Î½øÈëDPLLº¯ÊıÎª1£¬ÆäºóÎª2£»
- ·µ»ØÖµ£ºFALSE£º¹«Ê½ÎŞ½â£»
-       TRUE£º¹«Ê½ÓĞ½â*/
+/*é‡‡ç”¨ç¬¬äºŒç§å˜å…ƒé€‰å–ç­–ç•¥çš„é€’å½’ç®—æ³•DPLLå‡½æ•°
+ å‚æ•°ï¼š(int)numï¼šè¯¥æ¬¡è¿›å…¥å‡½æ•°çœŸå€¼è®¾ä¸º1çš„å˜å…ƒåºå·ï¼›
+      (int)opï¼šæ™®é€šæ±‚è§£cnfæ–‡ä»¶ä¸º1ï¼Œç”Ÿæˆæ•°ç‹¬ç»ˆç›˜ä¸º2ï¼›
+      (int)timesofDPLLï¼šç¬¬ä¸€æ¬¡è¿›å…¥DPLLå‡½æ•°ä¸º1ï¼Œå…¶åä¸º2ï¼›
+ è¿”å›å€¼ï¼šFALSEï¼šå…¬å¼æ— è§£ï¼›
+       TRUEï¼šå…¬å¼æœ‰è§£*/
 status DPLL2(int num,int op,int timesofDPLL) {
 	int l,i;
 	Clause *c;
 	Paradigm *p=r->first;
 	Paraline *pline;
 	i=0;
-	/*µ¥×Ó¾ä²ßÂÔ*/
+	/*å•å­å¥ç­–ç•¥*/
 	if (timesofDPLL==1) {
 		l=0;
 	} else {
@@ -1011,10 +1011,10 @@ status DPLL2(int num,int op,int timesofDPLL) {
 		else l=0;
 	}
 	while (l!=0) {
-		stack[++instacksize]=l;//¼ÇÂ¼Ñ­»·¹ı³ÌÖĞÕæÖµÉèÎª1µÄÎÄ×Ö
-		DeleteClause(r, l);//É¾³ıº¬ÎÄ×ÖlµÄ×Ó¾ä
-		if (DeleteLiteral(r, l)==FALSE) { //É¾³ı×Ó¾äÖĞÎÄ×ÖlµÄ·´ÎÄ×Ö
-			//ÈçÌ½²âºó¹«Ê½ÎŞ½â£¬»Ö¸´µİ¹é½øÈë±¾´Îº¯ÊıÇ°µÄÁÚ½ÓÁ´±í×´Ì¬
+		stack[++instacksize]=l;//è®°å½•å¾ªç¯è¿‡ç¨‹ä¸­çœŸå€¼è®¾ä¸º1çš„æ–‡å­—
+		DeleteClause(r, l);//åˆ é™¤å«æ–‡å­—lçš„å­å¥
+		if (DeleteLiteral(r, l)==FALSE) { //åˆ é™¤å­å¥ä¸­æ–‡å­—lçš„åæ–‡å­—
+			//å¦‚æ¢æµ‹åå…¬å¼æ— è§£ï¼Œæ¢å¤é€’å½’è¿›å…¥æœ¬æ¬¡å‡½æ•°å‰çš„é‚»æ¥é“¾è¡¨çŠ¶æ€
 			for (; stack[instacksize]!=num; instacksize--) {
 				RecoverCNF(r, stack[instacksize]);
 				ValueList[abs(stack[instacksize])].IsInit=0;
@@ -1058,7 +1058,7 @@ status DPLL2(int num,int op,int timesofDPLL) {
 	if (DPLL2(l, 1,2)) {
 		return TRUE;
 	}
-	l=0-l;//ÉèlÎªÕæÖµÎª1Ê±Ì½²âÇó½âÊ§°Ü£¬¹ÊlÕæÖµÖ»ÄÜÎª0£¬¼´Æä·´ÎÄ×ÖÕæÖµÎª1
+	l=0-l;//è®¾lä¸ºçœŸå€¼ä¸º1æ—¶æ¢æµ‹æ±‚è§£å¤±è´¥ï¼Œæ•…lçœŸå€¼åªèƒ½ä¸º0ï¼Œå³å…¶åæ–‡å­—çœŸå€¼ä¸º1
 	if (DPLL2(l,1,2)==FALSE) {
 		if (instacksize==0)
 			return FALSE;
@@ -1074,19 +1074,19 @@ status DPLL2(int num,int op,int timesofDPLL) {
 		return TRUE;
 }
 
-/*²ÉÓÃµÚÈıÖÖ±äÔªÑ¡È¡²ßÂÔµÄµİ¹éËã·¨DPLLº¯Êı
- ²ÎÊı£º(int)num£º¸Ã´Î½øÈëº¯ÊıÕæÖµÉèÎª1µÄ±äÔªĞòºÅ£»
-      (int)op£ºÆÕÍ¨Çó½âcnfÎÄ¼şÎª1£¬Éú³ÉÊı¶ÀÖÕÅÌÎª2£»
-      (int)timesofDPLL£ºµÚÒ»´Î½øÈëDPLLº¯ÊıÎª1£¬ÆäºóÎª2£»
- ·µ»ØÖµ£ºFALSE£º¹«Ê½ÎŞ½â£»
-       TRUE£º¹«Ê½ÓĞ½â*/
+/*é‡‡ç”¨ç¬¬ä¸‰ç§å˜å…ƒé€‰å–ç­–ç•¥çš„é€’å½’ç®—æ³•DPLLå‡½æ•°
+ å‚æ•°ï¼š(int)numï¼šè¯¥æ¬¡è¿›å…¥å‡½æ•°çœŸå€¼è®¾ä¸º1çš„å˜å…ƒåºå·ï¼›
+      (int)opï¼šæ™®é€šæ±‚è§£cnfæ–‡ä»¶ä¸º1ï¼Œç”Ÿæˆæ•°ç‹¬ç»ˆç›˜ä¸º2ï¼›
+      (int)timesofDPLLï¼šç¬¬ä¸€æ¬¡è¿›å…¥DPLLå‡½æ•°ä¸º1ï¼Œå…¶åä¸º2ï¼›
+ è¿”å›å€¼ï¼šFALSEï¼šå…¬å¼æ— è§£ï¼›
+       TRUEï¼šå…¬å¼æœ‰è§£*/
 status DPLL3(int num,int op,int timesofDPLL) {
 	int l,i;
 	Clause *c;
 	Paradigm *p=r->first;
 	Paraline *pline;
 	i=0;
-	/*µ¥×Ó¾ä²ßÂÔ*/
+	/*å•å­å¥ç­–ç•¥*/
 	if (timesofDPLL==1) {
 		l=0;
 	} else {
@@ -1095,10 +1095,10 @@ status DPLL3(int num,int op,int timesofDPLL) {
 		else l=0;
 	}
 	while (l!=0) {
-		stack[++instacksize]=l;//¼ÇÂ¼Ñ­»·¹ı³ÌÖĞÕæÖµÉèÎª1µÄÎÄ×Ö
-		DeleteClause(r, l);//É¾³ıº¬ÎÄ×ÖlµÄ×Ó¾ä
-		if (DeleteLiteral(r, l)==FALSE) { //É¾³ı×Ó¾äÖĞÎÄ×ÖlµÄ·´ÎÄ×Ö
-			//ÈçÌ½²âºó¹«Ê½ÎŞ½â£¬»Ö¸´µİ¹é½øÈë±¾´Îº¯ÊıÇ°µÄÁÚ½ÓÁ´±í×´Ì¬
+		stack[++instacksize]=l;//è®°å½•å¾ªç¯è¿‡ç¨‹ä¸­çœŸå€¼è®¾ä¸º1çš„æ–‡å­—
+		DeleteClause(r, l);//åˆ é™¤å«æ–‡å­—lçš„å­å¥
+		if (DeleteLiteral(r, l)==FALSE) { //åˆ é™¤å­å¥ä¸­æ–‡å­—lçš„åæ–‡å­—
+			//å¦‚æ¢æµ‹åå…¬å¼æ— è§£ï¼Œæ¢å¤é€’å½’è¿›å…¥æœ¬æ¬¡å‡½æ•°å‰çš„é‚»æ¥é“¾è¡¨çŠ¶æ€
 			for (; stack[instacksize]!=num; instacksize--) {
 				RecoverCNF(r, stack[instacksize]);
 				ValueList[abs(stack[instacksize])].IsInit=0;
@@ -1120,7 +1120,7 @@ status DPLL3(int num,int op,int timesofDPLL) {
 		l=HasUnitClause(r);
 	}
 	if (op==1) {
-		l=FindLiteral3(r);//Ë³ĞòÑ¡È¡Ã»ÓĞ¼¼ÇÉ
+		l=FindLiteral3(r);//é¡ºåºé€‰å–æ²¡æœ‰æŠ€å·§
 	} 
 	else {
 		do {
@@ -1143,7 +1143,7 @@ status DPLL3(int num,int op,int timesofDPLL) {
 	if (DPLL3(l, 1,2)) {
 		return TRUE;
 	}
-	l=0-l;//ÉèlÎªÕæÖµÎª1Ê±Ì½²âÇó½âÊ§°Ü£¬¹ÊlÕæÖµÖ»ÄÜÎª0£¬¼´Æä·´ÎÄ×ÖÕæÖµÎª1
+	l=0-l;//è®¾lä¸ºçœŸå€¼ä¸º1æ—¶æ¢æµ‹æ±‚è§£å¤±è´¥ï¼Œæ•…lçœŸå€¼åªèƒ½ä¸º0ï¼Œå³å…¶åæ–‡å­—çœŸå€¼ä¸º1
 	if (DPLL3(l,1,2)==FALSE) {
 		if (instacksize==0)
 			return FALSE;
@@ -1159,19 +1159,19 @@ status DPLL3(int num,int op,int timesofDPLL) {
 		return TRUE;
 }
 
-/*²ÉÓÃµÚËÄÖÖ±äÔªÑ¡È¡²ßÂÔµÄµİ¹éËã·¨DPLLº¯Êı
- ²ÎÊı£º(int)num£º¸Ã´Î½øÈëº¯ÊıÕæÖµÉèÎª1µÄ±äÔªĞòºÅ£»
-      (int)op£ºÆÕÍ¨Çó½âcnfÎÄ¼şÎª1£¬Éú³ÉÊı¶ÀÖÕÅÌÎª2£»
-      (int)timesofDPLL£ºµÚÒ»´Î½øÈëDPLLº¯ÊıÎª1£¬ÆäºóÎª2£»
- ·µ»ØÖµ£ºFALSE£º¹«Ê½ÎŞ½â£»
-       TRUE£º¹«Ê½ÓĞ½â*/
+/*é‡‡ç”¨ç¬¬å››ç§å˜å…ƒé€‰å–ç­–ç•¥çš„é€’å½’ç®—æ³•DPLLå‡½æ•°
+ å‚æ•°ï¼š(int)numï¼šè¯¥æ¬¡è¿›å…¥å‡½æ•°çœŸå€¼è®¾ä¸º1çš„å˜å…ƒåºå·ï¼›
+      (int)opï¼šæ™®é€šæ±‚è§£cnfæ–‡ä»¶ä¸º1ï¼Œç”Ÿæˆæ•°ç‹¬ç»ˆç›˜ä¸º2ï¼›
+      (int)timesofDPLLï¼šç¬¬ä¸€æ¬¡è¿›å…¥DPLLå‡½æ•°ä¸º1ï¼Œå…¶åä¸º2ï¼›
+ è¿”å›å€¼ï¼šFALSEï¼šå…¬å¼æ— è§£ï¼›
+       TRUEï¼šå…¬å¼æœ‰è§£*/
 status DPLL4(int num,int op,int timesofDPLL) {
 	int l,i;
 	Clause *c;
 	Paradigm *p=r->first;
 	Paraline *pline;
 	i=0;
-	/*µ¥×Ó¾ä²ßÂÔ*/
+	/*å•å­å¥ç­–ç•¥*/
 	if (timesofDPLL==1) {
 		l=0;
 	} else {
@@ -1180,10 +1180,10 @@ status DPLL4(int num,int op,int timesofDPLL) {
 		else l=0;
 	}
 	while (l!=0) {
-		stack[++instacksize]=l;//¼ÇÂ¼Ñ­»·¹ı³ÌÖĞÕæÖµÉèÎª1µÄÎÄ×Ö
-		DeleteClause(r, l);//É¾³ıº¬ÎÄ×ÖlµÄ×Ó¾ä
-		if (DeleteLiteral(r, l)==FALSE) { //É¾³ı×Ó¾äÖĞÎÄ×ÖlµÄ·´ÎÄ×Ö
-			//ÈçÌ½²âºó¹«Ê½ÎŞ½â£¬»Ö¸´µİ¹é½øÈë±¾´Îº¯ÊıÇ°µÄÁÚ½ÓÁ´±í×´Ì¬
+		stack[++instacksize]=l;//è®°å½•å¾ªç¯è¿‡ç¨‹ä¸­çœŸå€¼è®¾ä¸º1çš„æ–‡å­—
+		DeleteClause(r, l);//åˆ é™¤å«æ–‡å­—lçš„å­å¥
+		if (DeleteLiteral(r, l)==FALSE) { //åˆ é™¤å­å¥ä¸­æ–‡å­—lçš„åæ–‡å­—
+			//å¦‚æ¢æµ‹åå…¬å¼æ— è§£ï¼Œæ¢å¤é€’å½’è¿›å…¥æœ¬æ¬¡å‡½æ•°å‰çš„é‚»æ¥é“¾è¡¨çŠ¶æ€
 			for (; stack[instacksize]!=num; instacksize--) {
 				RecoverCNF(r, stack[instacksize]);
 				ValueList[abs(stack[instacksize])].IsInit=0;
@@ -1227,7 +1227,7 @@ status DPLL4(int num,int op,int timesofDPLL) {
 	if (DPLL4(l, 1,2)) {
 		return TRUE;
 	}
-	l=0-l;//ÉèlÎªÕæÖµÎª1Ê±Ì½²âÇó½âÊ§°Ü£¬¹ÊlÕæÖµÖ»ÄÜÎª0£¬¼´Æä·´ÎÄ×ÖÕæÖµÎª1
+	l=0-l;//è®¾lä¸ºçœŸå€¼ä¸º1æ—¶æ¢æµ‹æ±‚è§£å¤±è´¥ï¼Œæ•…lçœŸå€¼åªèƒ½ä¸º0ï¼Œå³å…¶åæ–‡å­—çœŸå€¼ä¸º1
 	if (DPLL4(l,1,2)==FALSE) {
 		if (instacksize==0)
 			return FALSE;
@@ -1244,10 +1244,10 @@ status DPLL4(int num,int op,int timesofDPLL) {
 }
 
 
-/*ÓÅ»¯Ç°°æ±¾DPLLº¯Êı
- ²ÎÊı£º(int)op£ºÆÕÍ¨Çó½âcnfÎÄ¼şÎª1£¬Éú³ÉÊı¶ÀÖÕÅÌÎª2£»
- ·µ»ØÖµ£ºFALSE£º¹«Ê½ÎŞ½â£»
-       TRUE£º¹«Ê½ÓĞ½â*/
+/*ä¼˜åŒ–å‰ç‰ˆæœ¬DPLLå‡½æ•°
+ å‚æ•°ï¼š(int)opï¼šæ™®é€šæ±‚è§£cnfæ–‡ä»¶ä¸º1ï¼Œç”Ÿæˆæ•°ç‹¬ç»ˆç›˜ä¸º2ï¼›
+ è¿”å›å€¼ï¼šFALSEï¼šå…¬å¼æ— è§£ï¼›
+       TRUEï¼šå…¬å¼æœ‰è§£*/
 status DPLL_Before(Root *r,int op) {
 	int l,i;
 	Clause *c;
@@ -1260,21 +1260,21 @@ status DPLL_Before(Root *r,int op) {
 	for (i=0; i<r->litsize; i++)
 		Memory[i]=0;
 	i=0;
-	/*µ¥×Ó¾ä²ßÂÔ*/
+	/*å•å­å¥ç­–ç•¥*/
 	if (op==1) {
-		c=HasUnitClause_Before(r);//Ë³Ğò²éÕÒµ¥×Ó¾ä
+		c=HasUnitClause_Before(r);//é¡ºåºæŸ¥æ‰¾å•å­å¥
 	} else {
 		c=NULL;
 	}
-	//µ¥×Ó¾ä´«²¥
+	//å•å­å¥ä¼ æ’­
 	while (c!=NULL) {
 		l=c->literal;
-		Memory[i++]=l;//Ìí¼Óµ¥×Ó¾äµÄÎÄ×Ö
-		DeleteClause(r, l);//É¾³ıº¬ÎÄ×ÖlµÄ×Ó¾ä
-		if (DeleteLiteral(r, l)==FALSE) { //É¾³ı×Ö¾äÖĞÎÄ×ÖlµÄ¸ºÎÄ×Ö
-			//ÈçÌ½²âºó¹«Ê½ÎŞ½â£¬»Ö¸´µİ¹é½øÈë±¾´Îº¯ÊıÇ°µÄÁÚ½ÓÁ´±í×´Ì¬
-			if (Memory[0]!=0)//Õ»²»Îª¿Õ
-				RemoveHeadClaus(r, Memory[0]);//É¾³ıÔö¼ÓµÄµ¥×Ó¾ä
+		Memory[i++]=l;//æ·»åŠ å•å­å¥çš„æ–‡å­—
+		DeleteClause(r, l);//åˆ é™¤å«æ–‡å­—lçš„å­å¥
+		if (DeleteLiteral(r, l)==FALSE) { //åˆ é™¤å­—å¥ä¸­æ–‡å­—lçš„è´Ÿæ–‡å­—
+			//å¦‚æ¢æµ‹åå…¬å¼æ— è§£ï¼Œæ¢å¤é€’å½’è¿›å…¥æœ¬æ¬¡å‡½æ•°å‰çš„é‚»æ¥é“¾è¡¨çŠ¶æ€
+			if (Memory[0]!=0)//æ ˆä¸ä¸ºç©º
+				RemoveHeadClaus(r, Memory[0]);//åˆ é™¤å¢åŠ çš„å•å­å¥
 			for (i=0; Memory[i]!=0; i++) {
 				RecoverCNF(r, Memory[i]);
 				ValueList[abs(Memory[i])].IsInit=0;
@@ -1282,7 +1282,7 @@ status DPLL_Before(Root *r,int op) {
 			return FALSE;
 		}
 
-		/*ÔÚ±äÔª±íÖĞ¼ÇÂ¼±äÔªlµÄÕæÖµ*/
+		/*åœ¨å˜å…ƒè¡¨ä¸­è®°å½•å˜å…ƒlçš„çœŸå€¼*/
 		if (l>0) {
 			ValueList[l].Value=1;
 			ValueList[l].IsInit=1;
@@ -1291,13 +1291,13 @@ status DPLL_Before(Root *r,int op) {
 			ValueList[0-l].IsInit=1;
 		}
 		if (FindLiteral_Before(r)==NULL)
-			return TRUE;//¹«Ê½ÖĞÃ»ÓĞÊ£ÓàµÄÎ´¸³ÕæÖµµÄ±äÔª£¬Çó½â³É¹¦
-		c=HasUnitClause_Before(r);//Ñ°ÕÒ¹«Ê½ÖĞµÄµ¥×Ó¾ä²¢½«ÆäÎÄ×ÖÖµ¸³¸øl
+			return TRUE;//å…¬å¼ä¸­æ²¡æœ‰å‰©ä½™çš„æœªèµ‹çœŸå€¼çš„å˜å…ƒï¼Œæ±‚è§£æˆåŠŸ
+		c=HasUnitClause_Before(r);//å¯»æ‰¾å…¬å¼ä¸­çš„å•å­å¥å¹¶å°†å…¶æ–‡å­—å€¼èµ‹ç»™l
 	}
 
-	Memory[i]=0;//Ïàµ±ÓÚÉèÖÃline1327µÄÌõ¼ş
+	Memory[i]=0;//ç›¸å½“äºè®¾ç½®line1327çš„æ¡ä»¶
 	if (op==1) {
-		c=FindLiteral_Before(r);//Ë³ĞòÕÒµ½»¹´æÔÚµÄÎÄ×ÖÖ¸Õë
+		c=FindLiteral_Before(r);//é¡ºåºæ‰¾åˆ°è¿˜å­˜åœ¨çš„æ–‡å­—æŒ‡é’ˆ
 	} else {//?
 		do {
 			l=rand()%729+1;
@@ -1312,15 +1312,15 @@ status DPLL_Before(Root *r,int op) {
 				break;
 		}
 	}
-	if (c==NULL)//È«±»¸³ÖµÁË£¬Ò»¸ö×Ó¾äÒ²Ã»ÓĞ
+	if (c==NULL)//å…¨è¢«èµ‹å€¼äº†ï¼Œä¸€ä¸ªå­å¥ä¹Ÿæ²¡æœ‰
 		return TRUE;
 	l=c->literal;
-	AddClause(r, l);//ÉèÎÄ×ÖlÕæÖµÎª1£¬ÔÚCNF·¶Ê½ÁÚ½ÓÁ´±í±íÍ·Ôö¼Óº¬ÎÄ×ÖlµÄµ¥×Ó¾äÁ´±í
+	AddClause(r, l);//è®¾æ–‡å­—lçœŸå€¼ä¸º1ï¼Œåœ¨CNFèŒƒå¼é‚»æ¥é“¾è¡¨è¡¨å¤´å¢åŠ å«æ–‡å­—lçš„å•å­å¥é“¾è¡¨
 	if (DPLL_Before(r, 1)) {
 		return TRUE;
 	}
 
-	l=0-l;//ÉèlÎªÕæÖµÎª1Ê±Ì½²âÇó½âÊ§°Ü£¬¹ÊlÕæÖµÖ»ÄÜÎª0£¬¼´Æä·´ÎÄ×ÖÕæÖµÎª1
+	l=0-l;//è®¾lä¸ºçœŸå€¼ä¸º1æ—¶æ¢æµ‹æ±‚è§£å¤±è´¥ï¼Œæ•…lçœŸå€¼åªèƒ½ä¸º0ï¼Œå³å…¶åæ–‡å­—çœŸå€¼ä¸º1
 	AddClause(r, l);
 	if (DPLL_Before(r,1)==FALSE) {
 
@@ -1335,7 +1335,7 @@ status DPLL_Before(Root *r,int op) {
 		return TRUE;
 }
 
-/*½«Î´¸³ÕæÖµµÄ±äÔª£¨Çó½â¹ı³ÌÖĞ»¯¼òÉáÈ¥£©¸³ÕæÖµ1*/
+/*å°†æœªèµ‹çœŸå€¼çš„å˜å…ƒï¼ˆæ±‚è§£è¿‡ç¨‹ä¸­åŒ–ç®€èˆå»ï¼‰èµ‹çœŸå€¼1*/
 void AnswerComplete(void) {
 	int i;
 	for (i=1; i<=r->litsize; i++) {
@@ -1346,15 +1346,15 @@ void AnswerComplete(void) {
 	}
 }
 
-/*¼ì²éSATÇó½â½á¹ûÕıÈ·ĞÔ
- ²ÎÊı£º(int)solut£º¹«Ê½Çó½â½á¹û£¬ÓĞ½âÎª1£¬ÎŞ½âÎª0£»
- ·µ»ØÖµ£ºTRUE£ºÇó½âÕıÈ·£»
-        FALSE£ºÇó½â´íÎó*/
+/*æ£€æŸ¥SATæ±‚è§£ç»“æœæ­£ç¡®æ€§
+ å‚æ•°ï¼š(int)solutï¼šå…¬å¼æ±‚è§£ç»“æœï¼Œæœ‰è§£ä¸º1ï¼Œæ— è§£ä¸º0ï¼›
+ è¿”å›å€¼ï¼šTRUEï¼šæ±‚è§£æ­£ç¡®ï¼›
+        FALSEï¼šæ±‚è§£é”™è¯¯*/
 status AnswerCheck(int solut) {
 	Paradigm *p;
 	Clause *c;
 	int flag,l,value,i=0;
-	if (solut==1) {//¹«Ê½ÓĞ½â
+	if (solut==1) {//å…¬å¼æœ‰è§£
 		for (p=r->first; p!=NULL; p=p->nextc) {
 			i++;
 			flag=0;
@@ -1364,17 +1364,17 @@ status AnswerCheck(int solut) {
 					value=ValueList[l].Value;
 				} else value=1-ValueList[l].Value;
 				if (value==1) {
-					flag=1;//×Ó¾äÖĞÓĞÎÄ×ÖÕæÖµÎª1£¬×Ó¾äÕæÖµÎª1
+					flag=1;//å­å¥ä¸­æœ‰æ–‡å­—çœŸå€¼ä¸º1ï¼Œå­å¥çœŸå€¼ä¸º1
 					break;
 				}
 			}
 			if (flag==0) {
 
-				return FALSE;//×Ó¾äÖĞÎŞÕæÖµÎª1µÄÎÄ×Ö£¬×Ó¾äÕæÖµÎª0£¬Çó½â´íÎó
+				return FALSE;//å­å¥ä¸­æ— çœŸå€¼ä¸º1çš„æ–‡å­—ï¼Œå­å¥çœŸå€¼ä¸º0ï¼Œæ±‚è§£é”™è¯¯
 			}
 		}
 		return TRUE;
-	} else {//¹«Ê½ÎŞ½â
+	} else {//å…¬å¼æ— è§£
 		for (p=r->first; p!=NULL; p=p->nextc) {
 			flag=0;
 			for (c=p->sentence; c!=NULL; c=c->nextl) {
@@ -1382,9 +1382,9 @@ status AnswerCheck(int solut) {
 				if (c->literal>0) {
 					value=ValueList[l].Value;
 				} else value=1-ValueList[l].Value;
-				if (value==1) flag=1;//×Ó¾äÖĞÓĞÎÄ×ÖÕæÖµÎª1£¬×Ó¾äÕæÖµÎª1
+				if (value==1) flag=1;//å­å¥ä¸­æœ‰æ–‡å­—çœŸå€¼ä¸º1ï¼Œå­å¥çœŸå€¼ä¸º1
 			}
-			if (flag==0) return TRUE;//×Ó¾äÕæÖµÎª0£¬Çó½âÕıÈ·
+			if (flag==0) return TRUE;//å­å¥çœŸå€¼ä¸º0ï¼Œæ±‚è§£æ­£ç¡®
 		}
 		return FALSE;
 	}
@@ -1394,7 +1394,7 @@ status AnswerCheck(int solut) {
 /*------------------------SuDoKu------------------------*/
 
 status Sudoku(void) {
-	int op=1,difficulty=0,i,j,flag=1,choose=1;//opºÍchoose¼ÇÂ¼ÓÃ»§Ñ¡ÔñµÄ²Ù×÷£¬difficulty¼ÇÂ¼ÓÃ»§Ñ¡ÔñµÄÊı¶ÀÎÊÌâÄÑ¶È
+	int op=1,difficulty=0,i,j,flag=1,choose=1;//opå’Œchooseè®°å½•ç”¨æˆ·é€‰æ‹©çš„æ“ä½œï¼Œdifficultyè®°å½•ç”¨æˆ·é€‰æ‹©çš„æ•°ç‹¬é—®é¢˜éš¾åº¦
 	int solut=0;
 	char c;
 	int x[3];
@@ -1403,19 +1403,19 @@ status Sudoku(void) {
 		system("cls");
 		printf("\t\tChoose an option please.\n");
 		printf("---------------------------------------------------------\n");
-		printf("  1.Êı¶ÀÓÎÏ·         2.Çó½âÒ»¸öÊı¶ÀÎÄ¼ş         0.ÍË³ö\n");
+		printf("  1.æ•°ç‹¬æ¸¸æˆ         2.æ±‚è§£ä¸€ä¸ªæ•°ç‹¬æ–‡ä»¶         0.é€€å‡º\n");
 		printf("---------------------------------------------------------\n");
 		scanf("%d",&op);
 		switch (op) {
 			case 1:
-				solut=CreateSudoku();//Éú³É»ù´¡Êı¶ÀÖÕÅÌ¶ÔÓ¦±äÔªÕæÖµ±í
+				solut=CreateSudoku();//ç”ŸæˆåŸºç¡€æ•°ç‹¬ç»ˆç›˜å¯¹åº”å˜å…ƒçœŸå€¼è¡¨
 				if (solut) {
-					CNFSudokuTableTransform();//½«Çó½âµÄ±äÔªÕæÖµ±í×ª»»Îª¶şÎ¬Êı×éÊı¶ÀÖÕÅÌ
-					printf("ÇëÑ¡ÔñÊı¶ÀÄÑ¶È£º\n1.easy\t\t2.medium\t\t3.Hard\n");
+					CNFSudokuTableTransform();//å°†æ±‚è§£çš„å˜å…ƒçœŸå€¼è¡¨è½¬æ¢ä¸ºäºŒç»´æ•°ç»„æ•°ç‹¬ç»ˆç›˜
+					printf("è¯·é€‰æ‹©æ•°ç‹¬éš¾åº¦ï¼š\n1.easy\t\t2.medium\t\t3.Hard\n");
 					scanf("%d",&difficulty);
-					//SudokuTablePrint();//²âÊÔÓÃ¾ä£¬ÏÈÊä³öÖÕÅÌ´ğ°¸
+					//SudokuTablePrint();//æµ‹è¯•ç”¨å¥ï¼Œå…ˆè¾“å‡ºç»ˆç›˜ç­”æ¡ˆ
 					printf("Loading...");
-					/*¸ù¾İÓÃ»§Ñ¡ÔñÊı¶ÀÎÊÌâÄÑ¶È¶ÔÊı¶ÀÖÕÅÌËæ»úÍÚÏàÓ¦ÊıÁ¿µÄ¶´Éú³ÉÎÊÌâ*/
+					/*æ ¹æ®ç”¨æˆ·é€‰æ‹©æ•°ç‹¬é—®é¢˜éš¾åº¦å¯¹æ•°ç‹¬ç»ˆç›˜éšæœºæŒ–ç›¸åº”æ•°é‡çš„æ´ç”Ÿæˆé—®é¢˜*/
 					switch (difficulty) {
 						case 1:
 							DigHole(30);
@@ -1427,13 +1427,13 @@ status Sudoku(void) {
 							DigHole(64);
 							break;
 						default:
-							printf("ÊäÈë³ö´í£¡\n");
+							printf("è¾“å…¥å‡ºé”™ï¼\n");
 							break;
 					}
 					choose=1;
 					while (choose) {
-						flag=1;//flag±ê¼ÇÓÃ»§Çó½â´ğ°¸ÕıÈ·Óë·ñ£¬ÕıÈ·Îª1£¬´íÎóÎª0
-						printf("°´¡°ĞĞÁĞÖµ¡±µÄË³Ğò£¬ÒÀ´ÎÊäÈëÄãµÄ´ğ°¸£¨Àı£º¡°436¡±´ú±íµÚËÄĞĞµÚÈıÁĞµÄ¿Õ¸ñÄÚÌîÈë6£©£¬Ã¿ÊäÈëÒ»¸ö´ğ°¸ÓÃ»Ø³µ¼ü¶Ï¿ª£¬ÊäÈëÍê³ÉºóÇëÊäÈë¿Õ¸ñ²¢°´»Ø³µ¼ÌĞø£º\n");
+						flag=1;//flagæ ‡è®°ç”¨æˆ·æ±‚è§£ç­”æ¡ˆæ­£ç¡®ä¸å¦ï¼Œæ­£ç¡®ä¸º1ï¼Œé”™è¯¯ä¸º0
+						printf("æŒ‰â€œè¡Œåˆ—å€¼â€çš„é¡ºåºï¼Œä¾æ¬¡è¾“å…¥ä½ çš„ç­”æ¡ˆï¼ˆä¾‹ï¼šâ€œ436â€ä»£è¡¨ç¬¬å››è¡Œç¬¬ä¸‰åˆ—çš„ç©ºæ ¼å†…å¡«å…¥6ï¼‰ï¼Œæ¯è¾“å…¥ä¸€ä¸ªç­”æ¡ˆç”¨å›è½¦é”®æ–­å¼€ï¼Œè¾“å…¥å®Œæˆåè¯·è¾“å…¥ç©ºæ ¼å¹¶æŒ‰å›è½¦ç»§ç»­ï¼š\n");
 						getchar();
 						c=getchar();
 						while (c!='\n') {
@@ -1442,14 +1442,14 @@ status Sudoku(void) {
 								x[i++]=c-'0';
 								c=getchar();
 							}
-							users_sudoku[x[0]][x[1]]=x[2];//¼ÇÂ¼ÓÃ»§ÊäÈë´ğ°¸
+							users_sudoku[x[0]][x[1]]=x[2];//è®°å½•ç”¨æˆ·è¾“å…¥ç­”æ¡ˆ
 							c=getchar();
 						}
 						for (i=0; i<9; i++) {
 							for (j=0; j<9; j++)
-								//¶Ô±ÈÓÃ»§½â´ğºÍÊı¶À´ğ°¸£¬ÅĞ¶ÏÆäÇó½âÕıÈ·ĞÔ
+								//å¯¹æ¯”ç”¨æˆ·è§£ç­”å’Œæ•°ç‹¬ç­”æ¡ˆï¼Œåˆ¤æ–­å…¶æ±‚è§£æ­£ç¡®æ€§
 								if (sudoku_table[i][j]!=users_sudoku[i][j]) {
-									printf("´ğ°¸´íÎó£¡\n");
+									printf("ç­”æ¡ˆé”™è¯¯ï¼\n");
 									flag=0;
 									break;
 								}
@@ -1458,11 +1458,11 @@ status Sudoku(void) {
 							}
 						}
 						if (flag) {
-							printf("¹§Ï²£¡´ğ°¸ÕıÈ·£¡\n");
-							SudokuTablePrint();//Êä³öÊı¶ÀÖÕÅÌ
+							printf("æ­å–œï¼ç­”æ¡ˆæ­£ç¡®ï¼\n");
+							SudokuTablePrint();//è¾“å‡ºæ•°ç‹¬ç»ˆç›˜
 							choose=0;
 						} else {
-							printf("ÊÇ·ñ²é¿´´ğ°¸£¿0.ÊÇ  1.·ñ\n");
+							printf("æ˜¯å¦æŸ¥çœ‹ç­”æ¡ˆï¼Ÿ0.æ˜¯  1.å¦\n");
 							scanf("%d",&choose);
 							switch (choose) {
 								case 1:
@@ -1471,12 +1471,12 @@ status Sudoku(void) {
 									SudokuTablePrint();
 									break;
 								default:
-									printf("ÊäÈë´íÎó£¡\n");
+									printf("è¾“å…¥é”™è¯¯ï¼\n");
 									break;
 							}
 						}
 					}
-				} else  printf("Éú³ÉÊ§°Ü£¡\n");
+				} else  printf("ç”Ÿæˆå¤±è´¥ï¼\n");
 				getchar();
 				getchar();
 				break;
@@ -1488,7 +1488,7 @@ status Sudoku(void) {
 			case 0:
 				break;
 			default:
-				printf("ÊäÈë´íÎó£¡");
+				printf("è¾“å…¥é”™è¯¯ï¼");
 				getchar();
 				getchar();
 				break;
@@ -1498,34 +1498,34 @@ status Sudoku(void) {
 	return OK;
 }
 
-/*´´½¨Êı¶ÀÎÊÌâ×ª»¯ÎªSATÎÊÌâºóµÄcnfÎÄ¼ş*/
+/*åˆ›å»ºæ•°ç‹¬é—®é¢˜è½¬åŒ–ä¸ºSATé—®é¢˜åçš„cnfæ–‡ä»¶*/
 FILE * CreateSudokuFile(void) {
-	int x,y,z,i,j,k,l;//x´ú±íÊı¶ÀµÄĞĞ£¬y´ú±íÊı¶ÀµÄÁĞ£¬zÈ¡1¡«9·Ö±ğ´ú±í¸Ã¸ñÖĞÊı¶ÀÌîÈëÖµÎª1¡«9ÖĞÈÎÒ»Öµ
+	int x,y,z,i,j,k,l;//xä»£è¡¨æ•°ç‹¬çš„è¡Œï¼Œyä»£è¡¨æ•°ç‹¬çš„åˆ—ï¼Œzå–1ï½9åˆ†åˆ«ä»£è¡¨è¯¥æ ¼ä¸­æ•°ç‹¬å¡«å…¥å€¼ä¸º1ï½9ä¸­ä»»ä¸€å€¼
 	FILE *fp;
 	fp=fopen("SudokuTableBase.cnf", "wb");
 	if (fp==NULL) {
-		printf("ÎÄ¼ş´ò¿ªÊ§°Ü£¡\n");
+		printf("æ–‡ä»¶æ‰“å¼€å¤±è´¥ï¼\n");
 		return NULL;
 	}
-	fprintf(fp, "p cnf 729 10287\n");//¹²ÓĞ729¸ö±äÔª£¬9*9¸öÊı¶À¿Õ¸ñÃ¿¸ö¸ñ¶ÔÓ¦9¸ö±äÔª£¬ÌîÈë1¡«9ÖĞÄ³Ò»ÖµÔò¶ÔÓ¦±äÔªÎªÕæ£¬ÆäËûÎª¼Ù
+	fprintf(fp, "p cnf 729 10287\n");//å…±æœ‰729ä¸ªå˜å…ƒï¼Œ9*9ä¸ªæ•°ç‹¬ç©ºæ ¼æ¯ä¸ªæ ¼å¯¹åº”9ä¸ªå˜å…ƒï¼Œå¡«å…¥1ï½9ä¸­æŸä¸€å€¼åˆ™å¯¹åº”å˜å…ƒä¸ºçœŸï¼Œå…¶ä»–ä¸ºå‡
 	for (x=0; x<9; x++) {
 		for (y=0; y<9; y++)
 			for (z=1; z<9; z++)
 				for (i=z+1; i<=9; i++)
 					fprintf(fp, "%d %d 0\n",-(81*x+9*y+z),-(81*x+9*y+i));
-	}                        //Ã¿¸öcellÖ»ÄÜÈ¡1¡«9µÄÒ»¸öÖµ
+	}                        //æ¯ä¸ªcellåªèƒ½å–1ï½9çš„ä¸€ä¸ªå€¼
 	for (x=0; x<9; x++) {
 		for (z=1; z<=9; z++)
 			for (y=0; y<8; y++)
 				for (i=y+1; i<=8; i++)
 					fprintf(fp, "%d %d 0\n",-(81*x+9*y+z),-(81*x+9*i+z));
-	}                        //Ã¿ĞĞ1¡«9Ö»ÄÜ¸÷³öÏÖÒ»´Î
+	}                        //æ¯è¡Œ1ï½9åªèƒ½å„å‡ºç°ä¸€æ¬¡
 	for (y=0; y<9; y++) {
 		for (z=1; z<=9; z++)
 			for (x=0; x<8; x++)
 				for (i=x+1; i<=8; i++)
 					fprintf(fp, "%d %d 0\n",-(81*x+9*y+z),-(81*i+9*y+z));
-	}                        //Ã¿ÁĞ1¡«9Ö»ÄÜ¸÷³öÏÖÒ»´Î
+	}                        //æ¯åˆ—1ï½9åªèƒ½å„å‡ºç°ä¸€æ¬¡
 	for (i=0; i<3; i++) {
 		for (j=0; j<3; j++)
 			for (z=1; z<=9; z++)
@@ -1535,15 +1535,15 @@ FILE * CreateSudokuFile(void) {
 							for (l=0; l<3; l++)
 								if (y!=l)
 									fprintf(fp, "%d %d 0\n",-(81*(3*i+x)+9*(3*j+y)+z),-(81*(3*i+k)+9*(3*j+l)+z));
-	}                        //Ã¿¸öregionÖĞ1¡«9Ö»ÄÜ¸÷³öÏÖÒ»´Î
+	}                        //æ¯ä¸ªregionä¸­1ï½9åªèƒ½å„å‡ºç°ä¸€æ¬¡
 	for (x=0; x<9; x++) {
 		for (y=0; y<9; y++) {
 			for (z=1; z<=9; z++)
 				fprintf(fp, "%d ",81*x+9*y+z);
 			fprintf(fp, "0\n");
 		}
-	}                        //Ã¿¸öcell±ØĞëÈ¡1¡«9ÖĞµÄÒ»¸öÖµ
-	// Ìí¼Ó¶ÔÖ÷¶Ô½ÇÏßµÄÔ¼Êø
+	}                        //æ¯ä¸ªcellå¿…é¡»å–1ï½9ä¸­çš„ä¸€ä¸ªå€¼
+	// æ·»åŠ å¯¹ä¸»å¯¹è§’çº¿çš„çº¦æŸ
 for (z = 1; z <= 9; z++) {
     for (x = 0; x < 8; x++) {
         for (i = x + 1; i < 9; i++) {
@@ -1552,7 +1552,7 @@ for (z = 1; z <= 9; z++) {
     }
 }
 
-// Ìí¼Ó¶Ô¸±¶Ô½ÇÏßµÄÔ¼Êø
+// æ·»åŠ å¯¹å‰¯å¯¹è§’çº¿çš„çº¦æŸ
 for (z = 1; z <= 9; z++) {
     for (x = 0; x < 8; x++) {
         for (i = x + 1; i < 9; i++) {
@@ -1566,7 +1566,7 @@ for (z = 1; z <= 9; z++) {
 	return fp;
 }
 
-/*´´½¨ĞÂµÄËæ»ú9*9Êı¶ÀÖÕÅÌ*/
+/*åˆ›å»ºæ–°çš„éšæœº9*9æ•°ç‹¬ç»ˆç›˜*/
 status CreateSudoku(void) {
 	int x,y,z,i,d;
 	int order[82],randnum;
@@ -1577,12 +1577,12 @@ status CreateSudoku(void) {
 	do {
 		fp=CreateSudokuFile();
 		if (fp==NULL) {
-			printf("ÎÄ¼ş´ò¿ªÊ§°Ü£¡\n");
+			printf("æ–‡ä»¶æ‰“å¼€å¤±è´¥ï¼\n");
 			return ERROR;
 		}
-		CreateParadigm(&fp);//´´½¨Êı¶ÀÎÄ¼ş¶ÔÓ¦CNF·¶Ê½ÁÚ½ÓÁ´±í
+		CreateParadigm(&fp);//åˆ›å»ºæ•°ç‹¬æ–‡ä»¶å¯¹åº”CNFèŒƒå¼é‚»æ¥é“¾è¡¨
 
-		/*¶Ô1¡«81µÄÊı×Ö½øĞĞËæ»úÅÅĞò*/
+		/*å¯¹1ï½81çš„æ•°å­—è¿›è¡Œéšæœºæ’åº*/
 		for (i=0; i<=81; i++)
 			order[i]=i;
 		for (i=81; i>2; i--) {
@@ -1594,12 +1594,12 @@ status CreateSudoku(void) {
 			}
 		}
 
-		for (i=1; i<=10; i++) {                 //ÔÚÆåÅÌÖĞËæ»úÑ¡10¸ö¸ñ×ÓËæ»úÌîÈë1~9
-			x=(order[i]-1)/9;//Ë³ĞòÎªiµÄcellÔÚÆåÅÌµÄĞĞÊı
-			y=(order[i]-1)%9;//¸ÃcellÔÚÆåÅÌµÄÁĞÊı
-			z=rand()%9+1;//1¡«9µÄËæ»úÊı
+		for (i=1; i<=10; i++) {                 //åœ¨æ£‹ç›˜ä¸­éšæœºé€‰10ä¸ªæ ¼å­éšæœºå¡«å…¥1~9
+			x=(order[i]-1)/9;//é¡ºåºä¸ºiçš„cellåœ¨æ£‹ç›˜çš„è¡Œæ•°
+			y=(order[i]-1)%9;//è¯¥cellåœ¨æ£‹ç›˜çš„åˆ—æ•°
+			z=rand()%9+1;//1ï½9çš„éšæœºæ•°
 
-			/*½«ÒÑ¾­È·¶¨µÄcellµÄÖµ¼ÇÈë±äÔªÕæÖµ±íÖĞ*/
+			/*å°†å·²ç»ç¡®å®šçš„cellçš„å€¼è®°å…¥å˜å…ƒçœŸå€¼è¡¨ä¸­*/
 			for (d=1; d<=9; d++) {
 				ValueList[81*x+9*y+d].IsInit=1;
 				if (d==z) {
@@ -1614,11 +1614,11 @@ status CreateSudoku(void) {
 			}
 
 		}
-	} while (DPLL2(FindLiteral2(r),2,1)==FALSE);//½øÈëSATÇó½âÆ÷Çó½â£¬Ö±µ½µÃµ½Êı¶ÀÖÕÅÌ
+	} while (DPLL2(FindLiteral2(r),2,1)==FALSE);//è¿›å…¥SATæ±‚è§£å™¨æ±‚è§£ï¼Œç›´åˆ°å¾—åˆ°æ•°ç‹¬ç»ˆç›˜
 	return OK;
 }
 
-/*Çó½âÊı¶ÀcnfÎÄ¼ş²¢×ª»¯ÎªÊı¶ÀÖÕÅÌĞÎÊ½Êä³ö*/
+/*æ±‚è§£æ•°ç‹¬cnfæ–‡ä»¶å¹¶è½¬åŒ–ä¸ºæ•°ç‹¬ç»ˆç›˜å½¢å¼è¾“å‡º*/
 status SolveSudoku(void) {
 	FILE *fp,*open;
 	char filename[100];
@@ -1626,15 +1626,15 @@ status SolveSudoku(void) {
 	int i,j,k,x,y,z,d,cham;
 	int exitnum[10];
 	int table[82];
-	printf("ÇëÊäÈë´æ´¢Êı¶ÀµÄÎÄ¼şÃû£º");
+	printf("è¯·è¾“å…¥å­˜å‚¨æ•°ç‹¬çš„æ–‡ä»¶åï¼š");
 	scanf("%s",filename);
 	fp=fopen(filename, "r");
 	if (fp==NULL) {
-		printf("ÎÄ¼ş´ò¿ª´íÎó£¡\n");
+		printf("æ–‡ä»¶æ‰“å¼€é”™è¯¯ï¼\n");
 		return ERROR;
 	}
 
-	/*¶ÁÈ¡Êı¶ÀÎÄ¼şÖĞµÄÊı¶ÀÎÊÌâÅÌ*/
+	/*è¯»å–æ•°ç‹¬æ–‡ä»¶ä¸­çš„æ•°ç‹¬é—®é¢˜ç›˜*/
 	for (i=0; i<9; i++) {
 		j=0;
 		fscanf(fp, "%c",&read);
@@ -1651,36 +1651,36 @@ status SolveSudoku(void) {
 	fclose(fp);
 	open=SetCNFfile();
 	if (open==NULL) {
-		printf("ÎÄ¼ş´ò¿ªÊ§°Ü£¡\n");
+		printf("æ–‡ä»¶æ‰“å¼€å¤±è´¥ï¼\n");
 		return ERROR;
 	}
 	CreateParadigm(&open);
 	i=0;
-	DPLL_Before(r,1);//Çó½âÊı¶ÀÎÄ¼ş
+	DPLL_Before(r,1);//æ±‚è§£æ•°ç‹¬æ–‡ä»¶
 	for (k=1; k<=r->litsize; k++) {
 		if (ValueList[k].Value==1)
 			table[i++]=(k%9==0)?9:k%9;
-	}//½«±äÔª±íÕæÖµĞÅÏ¢×ª»»Îª¶şÎ¬¶ÀĞÅÏ¢*/
+	}//å°†å˜å…ƒè¡¨çœŸå€¼ä¿¡æ¯è½¬æ¢ä¸ºäºŒç»´ç‹¬ä¿¡æ¯*/
 	k=0;
 	for(i=0; i<9; i++)
 		for(j=0; j<9; j++)
 			sudoku_table[i][j]=table[k++];
-	printf("Êı¶ÀµÄ½âÎª£º\n");
-	SudokuTablePrint();//Êä³öÊı¶ÀÖÕÅÌ
+	printf("æ•°ç‹¬çš„è§£ä¸ºï¼š\n");
+	SudokuTablePrint();//è¾“å‡ºæ•°ç‹¬ç»ˆç›˜
 	return OK;
 }
-//½«Êı¶ÀtxtÎÄ¼ş×ª»¯Îªcnf
+//å°†æ•°ç‹¬txtæ–‡ä»¶è½¬åŒ–ä¸ºcnf
 FILE * SetCNFfile(void) {
 	int i,j,x,y,z,k,l;
-	printf("ÊäÈëÒª×ª»¯ÎªCNFÎÄ¼şµÄÎÄ¼şÃû£º\n");
+	printf("è¾“å…¥è¦è½¬åŒ–ä¸ºCNFæ–‡ä»¶çš„æ–‡ä»¶åï¼š\n");
 	scanf("%s", filename);
 	FILE *fp;
 	fp = fopen(filename, "w");
 	if (fp == NULL) {
-		printf("ÎÄ¼ş´ò¿ªÊ§°Ü£¡\n");
+		printf("æ–‡ä»¶æ‰“å¼€å¤±è´¥ï¼\n");
 		return NULL;
 	}
-	int f_sum = 0;//¹«Ê½Êı¼ÆÊıÆ÷
+	int f_sum = 0;//å…¬å¼æ•°è®¡æ•°å™¨
 	for (i = 0; i < 9; i++) {
 		for(j=0; j<9; j++)
 			if (sudoku_table[i][j] != 0) f_sum++;
@@ -1698,19 +1698,19 @@ FILE * SetCNFfile(void) {
 			for (z=1; z<9; z++)
 				for (i=z+1; i<=9; i++)
 					fprintf(fp, "%d %d 0\n",-(81*x+9*y+z),-(81*x+9*y+i));
-	}                        //Ã¿¸öcellÖ»ÄÜÈ¡1¡«9µÄÒ»¸öÖµ
+	}                        //æ¯ä¸ªcellåªèƒ½å–1ï½9çš„ä¸€ä¸ªå€¼
 	for (x=0; x<9; x++) {
 		for (z=1; z<=9; z++)
 			for (y=0; y<8; y++)
 				for (i=y+1; i<=8; i++)
 					fprintf(fp, "%d %d 0\n",-(81*x+9*y+z),-(81*x+9*i+z));
-	}                        //Ã¿ĞĞ1¡«9Ö»ÄÜ¸÷³öÏÖÒ»´Î
+	}                        //æ¯è¡Œ1ï½9åªèƒ½å„å‡ºç°ä¸€æ¬¡
 	for (y=0; y<9; y++) {
 		for (z=1; z<=9; z++)
 			for (x=0; x<8; x++)
 				for (i=x+1; i<=8; i++)
 					fprintf(fp, "%d %d 0\n",-(81*x+9*y+z),-(81*i+9*y+z));
-	}                        //Ã¿ÁĞ1¡«9Ö»ÄÜ¸÷³öÏÖÒ»´Î
+	}                        //æ¯åˆ—1ï½9åªèƒ½å„å‡ºç°ä¸€æ¬¡
 	for (i=0; i<3; i++) {
 		for (j=0; j<3; j++)
 			for (z=1; z<=9; z++)
@@ -1720,21 +1720,21 @@ FILE * SetCNFfile(void) {
 							for (l=0; l<3; l++)
 								if (y!=l)
 									fprintf(fp, "%d %d 0\n",-(81*(3*i+x)+9*(3*j+y)+z),-(81*(3*i+k)+9*(3*j+l)+z));
-	}                        //Ã¿¸öregionÖĞ1¡«9Ö»ÄÜ¸÷³öÏÖÒ»´Î
+	}                        //æ¯ä¸ªregionä¸­1ï½9åªèƒ½å„å‡ºç°ä¸€æ¬¡
 	for (x=0; x<9; x++) {
 		for (y=0; y<9; y++) {
 			for (z=1; z<=9; z++)
 				fprintf(fp, "%d ",81*x+9*y+z);
 			fprintf(fp, "0\n");
 		}
-	}                        //Ã¿¸öcell±ØĞëÈ¡1¡«9ÖĞµÄÒ»¸öÖµ
+	}                        //æ¯ä¸ªcellå¿…é¡»å–1ï½9ä¸­çš„ä¸€ä¸ªå€¼
 	fclose(fp);
 	fp=fopen(filename, "r");
 	return fp;
 }
 
-/*¶ÔÒÑÖªÊı¶ÀÖÕÅÌÍÚnum¸ö¶´Éú³ÉÓĞÎ¨Ò»½âµÄÊı¶ÀÎÊÌâ
-²ÎÊı£º(int)num£ºÍÚ¶´µÄÊıÄ¿*/
+/*å¯¹å·²çŸ¥æ•°ç‹¬ç»ˆç›˜æŒ–numä¸ªæ´ç”Ÿæˆæœ‰å”¯ä¸€è§£çš„æ•°ç‹¬é—®é¢˜
+å‚æ•°ï¼š(int)numï¼šæŒ–æ´çš„æ•°ç›®*/
 status DigHole(int num) {
 	int x,y,z,i,j,d;
 	int rank,origin,result=0,circle;
@@ -1746,12 +1746,12 @@ status DigHole(int num) {
 		diged_cells[i]=0;
 	fp=CreateSudokuFile();
 	if (fp==NULL) {
-		printf("ÎÄ¼ş´ò¿ªÊ§°Ü£¡\n");
+		printf("æ–‡ä»¶æ‰“å¼€å¤±è´¥ï¼\n");
 		return ERROR;
 	}
 	CreateParadigm(&fp);
 
-	/*½«Êı¶ÀĞÅÏ¢ÌîÈë¶ÔÓ¦±äÔªÕæÖµ±íÖĞ£¬²¢¶ÔCNF·¶Ê½ÁÚ½ÓÁ´±í×÷ÏàÓ¦´¦Àí*/
+	/*å°†æ•°ç‹¬ä¿¡æ¯å¡«å…¥å¯¹åº”å˜å…ƒçœŸå€¼è¡¨ä¸­ï¼Œå¹¶å¯¹CNFèŒƒå¼é‚»æ¥é“¾è¡¨ä½œç›¸åº”å¤„ç†*/
 	for (i=0; i<9; i++)
 		for (j=0; j<9; j++) {
 			d=sudoku_table[i][j];
@@ -1774,20 +1774,20 @@ status DigHole(int num) {
 		}
 	}
 
-	/*¸´ÖÆsudoku_tableµÄÖµÖÁÊı×étable_diged*/
+	/*å¤åˆ¶sudoku_tableçš„å€¼è‡³æ•°ç»„table_diged*/
 	for (i=0; i<9; i++)
 		for (j=0; j<9; j++)
 			table_diged[i][j]=sudoku_table[i][j];
 
-	/*ÍÚµÚÒ»¸ö¶´*/
+	/*æŒ–ç¬¬ä¸€ä¸ªæ´*/
 	rank=rand()%81+1;
 	diged_cells[rank]=1;
-	x=(rank-1)/9;//Ë³ĞòÎªrankµÄcellÔÚÆåÅÌµÄĞĞÊı
-	y=(rank-1)%9;//¸ÃcellÔÚÆåÅÌµÄÁĞÊı
+	x=(rank-1)/9;//é¡ºåºä¸ºrankçš„cellåœ¨æ£‹ç›˜çš„è¡Œæ•°
+	y=(rank-1)%9;//è¯¥cellåœ¨æ£‹ç›˜çš„åˆ—æ•°
 	origin=sudoku_table[x][y];
-	table_diged[x][y]=0;//¼ÇÂ¼ÍÚ¶´µÄÎ»ÖÃ
+	table_diged[x][y]=0;//è®°å½•æŒ–æ´çš„ä½ç½®
 
-	/*½«CNF¹«Ê½ÁÚ½ÓÁ´±í»Ö¸´ÖÁÎ´ÖªµÚÒ»¸ö¶´Î»ÖÃµÄÌîÈëÖµ£¬¼´Æä¶ÔÓ¦±äÔªÕæÖµÊ±µÄ×´Ì¬*/
+	/*å°†CNFå…¬å¼é‚»æ¥é“¾è¡¨æ¢å¤è‡³æœªçŸ¥ç¬¬ä¸€ä¸ªæ´ä½ç½®çš„å¡«å…¥å€¼ï¼Œå³å…¶å¯¹åº”å˜å…ƒçœŸå€¼æ—¶çš„çŠ¶æ€*/
 	for (z=1; z<=9; z++) {
 		if (z==origin)
 			RecoverCNF(r, 81*x+9*y+z);
@@ -1798,10 +1798,10 @@ status DigHole(int num) {
 	DestroyParadigm(r);
 
 	for (circle=1; circle<num; circle++) {
-		/*Ã¿´ÎÑ­»·ÖØĞÂ½¨Á¢µ±Ç°Êı¶ÀĞÅÏ¢¶ÔÓ¦CNF¹«Ê½ÁÚ½ÓÁ´±í¼°±äÔª±í²¢¶Ô±äÔª±íÌîÈëÏàÓ¦ĞÅÏ¢*/
+		/*æ¯æ¬¡å¾ªç¯é‡æ–°å»ºç«‹å½“å‰æ•°ç‹¬ä¿¡æ¯å¯¹åº”CNFå…¬å¼é‚»æ¥é“¾è¡¨åŠå˜å…ƒè¡¨å¹¶å¯¹å˜å…ƒè¡¨å¡«å…¥ç›¸åº”ä¿¡æ¯*/
 		fp=CreateSudokuFile();
 		if (fp==NULL) {
-			printf("ÎÄ¼ş´ò¿ªÊ§°Ü£¡\n");
+			printf("æ–‡ä»¶æ‰“å¼€å¤±è´¥ï¼\n");
 			return ERROR;
 		}
 		CreateParadigm(&fp);
@@ -1827,23 +1827,23 @@ status DigHole(int num) {
 			}
 		}
 
-		/*ÍÚÏÂÒ»¸ö¶´*/
+		/*æŒ–ä¸‹ä¸€ä¸ªæ´*/
 		rank=rand()%81+1;
-		x=(rank-1)/9;//Ë³ĞòÎªrankµÄcellÔÚÆåÅÌµÄĞĞÊı
-		y=(rank-1)%9;//¸ÃcellÔÚÆåÅÌµÄÁĞÊı
+		x=(rank-1)/9;//é¡ºåºä¸ºrankçš„cellåœ¨æ£‹ç›˜çš„è¡Œæ•°
+		y=(rank-1)%9;//è¯¥cellåœ¨æ£‹ç›˜çš„åˆ—æ•°
 		if (diged_cells[rank]==1) {
-			circle--;//¸Ã¶´ÒÑ¾­±»ÍÚ¹ı
+			circle--;//è¯¥æ´å·²ç»è¢«æŒ–è¿‡
 			continue;
 		}
-		diged_cells[rank]=1;//¼ÇÂ¼ÍÚ¶´µÄÎ»ÖÃ
+		diged_cells[rank]=1;//è®°å½•æŒ–æ´çš„ä½ç½®
 		origin=sudoku_table[x][y];
 		table_diged[x][y]=0;
 
-		/*¶ÔÍÚ¶´Î»ÖÃÌîÈë³ıÔ­ÖÕÅÌÊıÖµÍâµÄ8¸öÊıÖµ£¬ÒÀ´ÎÓÃSATÇó½âÆ÷½øĞĞÇó½â£¬ÈçÓĞ½âÔòËµÃ÷ÍÚ¶´ºó½â²»Î¨Ò»£¬¸Ã¶´²»¿ÉÍÚ*/
+		/*å¯¹æŒ–æ´ä½ç½®å¡«å…¥é™¤åŸç»ˆç›˜æ•°å€¼å¤–çš„8ä¸ªæ•°å€¼ï¼Œä¾æ¬¡ç”¨SATæ±‚è§£å™¨è¿›è¡Œæ±‚è§£ï¼Œå¦‚æœ‰è§£åˆ™è¯´æ˜æŒ–æ´åè§£ä¸å”¯ä¸€ï¼Œè¯¥æ´ä¸å¯æŒ–*/
 		for (z=1; z<=9; z++) {
 			result=0;
 			if (z!=origin) {
-				/*´¦ÀíCNF·¶Ê½Á´±í*/
+				/*å¤„ç†CNFèŒƒå¼é“¾è¡¨*/
 				for (d=1; d<=9; d++) {
 					ValueList[81*x+9*y+d].IsInit=1;
 					if (d==z) {
@@ -1874,14 +1874,14 @@ status DigHole(int num) {
 			}
 		}
 		if (result==1) {
-			circle--;//±¾´ÎÑ­»·ÍÚ¶´²»³É¹¦
+			circle--;//æœ¬æ¬¡å¾ªç¯æŒ–æ´ä¸æˆåŠŸ
 			continue;
 		}
 		DestroyParadigm(r);
 	}
 
 	printf("Complete!\n");
-	/*Êä³öÉú³ÉµÄÊı¶ÀÌâ*/
+	/*è¾“å‡ºç”Ÿæˆçš„æ•°ç‹¬é¢˜*/
 	printf("   0   1   2   3   4   5   6   7   8  \n");
 	printf(" +---+---+---+---+---+---+---+---+---+\n");
 	for (i=0; i<9; i++) {
@@ -1902,11 +1902,11 @@ status DigHole(int num) {
 	}
 	for (i=0; i<9; i++)
 		for (j=0; j<9; j++)
-			users_sudoku[i][j]=table_diged[i][j];/*¸´ÖÆtable_digedµÄÖµÖÁÊı×éusers_sudoku*/
+			users_sudoku[i][j]=table_diged[i][j];/*å¤åˆ¶table_digedçš„å€¼è‡³æ•°ç»„users_sudoku*/
 	return OK;
 }
 
-/*ÍêÉÆÊı¶ÀÖÕÅÌ*/
+/*å®Œå–„æ•°ç‹¬ç»ˆç›˜*/
 status SudokuComplete(void) {
 	int i,j,z,y,x,d;
 	int complete_table[9][9];
@@ -1924,12 +1924,12 @@ status SudokuComplete(void) {
 			if (complete_table[i][j]==0) {
 				complete_table[i][j]=1;
 				for (d=0; d<9; d++)
-					for (y=0; y<9; y++)//Á½ÖØÑ­»·É¨ÁË9±é±£Ö¤ºáÏòÒ»¶¨Ã»ÓĞÖØ¸´
+					for (y=0; y<9; y++)//ä¸¤é‡å¾ªç¯æ‰«äº†9éä¿è¯æ¨ªå‘ä¸€å®šæ²¡æœ‰é‡å¤
 						if (y!=j)
 							if (complete_table[i][j]==complete_table[i][y])
 								complete_table[i][j]++;
 				for (d=0; d<9; d++)
-					for (x=0; x<9; x++)//Á½ÖØÑ­»·É¨ÁË9±é±£Ö¤ÊúÏòÒ»¶¨Ã»ÓĞÖØ¸´
+					for (x=0; x<9; x++)//ä¸¤é‡å¾ªç¯æ‰«äº†9éä¿è¯ç«–å‘ä¸€å®šæ²¡æœ‰é‡å¤
 						if (x!=i)
 							if (complete_table[x][j]==complete_table[i][j])
 								complete_table[i][j]++;
@@ -1951,7 +1951,7 @@ status SudokuComplete(void) {
 	return OK;
 }
 
-/*Êı¶À¶ÔÓ¦SAT±äÔª±í×ª»¯Îª¶şÎ¬Êı×é*/
+/*æ•°ç‹¬å¯¹åº”SATå˜å…ƒè¡¨è½¬åŒ–ä¸ºäºŒç»´æ•°ç»„*/
 status CNFSudokuTableTransform(void) {
 	int i,j,z;
 	for (i=0; i<9; i++) {
@@ -1966,25 +1966,25 @@ status CNFSudokuTableTransform(void) {
 	return OK;
 }
 
-/*Êä³öÊı¶ÀÅÌ*/
+/*è¾“å‡ºæ•°ç‹¬ç›˜*/
 status SudokuTablePrint(void) {
 	int i,j;
-	printf("   0   1   2   3   4   5   6   7   8  \n");//ÁĞ±êºÅ
+	printf("   0   1   2   3   4   5   6   7   8  \n");//åˆ—æ ‡å·
 	printf(" +---+---+---+---+---+---+---+---+---+\n");
 	for (i=0; i<9; i++) {
-		printf("%d",i);//ĞĞ±êºÅ
+		printf("%d",i);//è¡Œæ ‡å·
 		for (j=0; j<9; j++) {
 			if (j==0||j==3||j==6) {
-				printf("|");//region¼ä¼ä¸ôÏß
+				printf("|");//regioné—´é—´éš”çº¿
 			} else printf(" ");
 			printf(" %d ",sudoku_table[i][j]);
 		}
 		printf("|\n");
 		if (i==2||i==5||i==8) {
-			printf(" +---+---+---+---+---+---+---+---+---+\n");//region¼ä¼ä¸ôÏß
-		} else printf(" |           |           |           |\n"); //region¼ä¼ä¸ôÏß
+			printf(" +---+---+---+---+---+---+---+---+---+\n");//regioné—´é—´éš”çº¿
+		} else printf(" |           |           |           |\n"); //regioné—´é—´éš”çº¿
 	}
-	printf("´òÓ¡Íê³É£¡\n");
+	printf("æ‰“å°å®Œæˆï¼\n");
 	return OK;
 }
 
