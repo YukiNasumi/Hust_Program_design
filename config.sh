@@ -1,4 +1,6 @@
-sudo apt update
-sudo apt install g++
-sudo apt install build-essential
-sudo apt install gdb
+sudo yum install g++
+y
+sudo yum install build-essential
+y
+sudo yum install gdb
+y
