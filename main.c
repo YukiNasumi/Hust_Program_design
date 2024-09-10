@@ -10,7 +10,7 @@ int main(int argc, const char * argv[]) {
 		printf("1.SAT        2.Sudoku\n");
 		printf("0.Exit\n");
 		printf("------------------------------\n");
-		printf("ÇëÊäÈë0~2£º\n");
+		printf("è¯·è¾“å…¥0~2ï¼š\n");
 		printf("----------\n");
         scanf("%d",&sum_op);
         switch (sum_op) {
@@ -23,7 +23,7 @@ int main(int argc, const char * argv[]) {
             case 0:
                 break;
             default:
-                printf("ÊäÈë´íÎó£¡");
+                printf("è¾“å…¥é”™è¯¯ï¼");
                 getchar();getchar();
                 break;
         }
