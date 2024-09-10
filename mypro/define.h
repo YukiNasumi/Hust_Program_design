@@ -1544,22 +1544,7 @@ FILE * CreateSudokuFile(void) {
 		}
 	}                        //每个cell必须取1～9中的一个值
 	// 添加对主对角线的约束
-for (z = 1; z <= 9; z++) {
-    for (x = 0; x < 8; x++) {
-        for (i = x + 1; i < 9; i++) {
-            fprintf(fp, "%d %d 0\n", -(81 * x + 9 * x + z), -(81 * i + 9 * i + z));
-        }
-    }
-}
 
-// 添加对副对角线的约束
-for (z = 1; z <= 9; z++) {
-    for (x = 0; x < 8; x++) {
-        for (i = x + 1; i < 9; i++) {
-            fprintf(fp, "%d %d 0\n", -(81 * x + 9 * (8 - x) + z), -(81 * i + 9 * (8 - i) + z));
-        }
-    }
-}
 
 	fclose(fp);
 	fp=fopen("SudokuTableBase.cnf", "r");
@@ -1781,7 +1766,7 @@ status DigHole(int num) {
 
 	/*挖第一个洞*/
 	rank=rand()%81+1;
-	diged_cells[rank]=1;
+	diged_cells[rank]=1;//记录挖去的格子的顺序
 	x=(rank-1)/9;//顺序为rank的cell在棋盘的行数
 	y=(rank-1)%9;//该cell在棋盘的列数
 	origin=sudoku_table[x][y];
