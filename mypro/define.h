@@ -1040,14 +1040,14 @@ status DPLL2(int num,int op,int timesofDPLL) {
 	} else {
 		do {
 			l=rand()%729+1;
-			for (pline=ValueList[l].Neg.Tra_cla; pline!=NULL; pline=pline->next) {
+			for (pline=ValueList[l].Neg.Tra_cla; pline!=NULL; pline=pline->next) {//找到一个未被初始化的文字l，p赋值为其子句指针
 				p=pline->claline;
 				if (p->number!=0)
 					break;
 			}
 		} while (ValueList[l].IsInit==1);
 		for (c=p->sentence; c!=NULL; c=c->nextl) {
-			if (c->flag==0) {
+			if (c->flag==EXIST) {
 				l=c->literal;
 				break;
 			}
@@ -1362,7 +1362,7 @@ status AnswerCheck(int solut) {
 				l=abs(c->literal);
 				if (c->literal>0) {
 					value=ValueList[l].Value;
-				} else value=1-ValueList[l].Value;
+				} else value=1-ValueList[l].Value;//如果一个lit的值为1这个子句就满足了
 				if (value==1) {
 					flag=1;//子句中有文字真值为1，子句真值为1
 					break;
@@ -1411,6 +1411,13 @@ status Sudoku(void) {
 				solut=CreateSudoku();//生成基础数独终盘对应变元真值表
 				if (solut) {
 					CNFSudokuTableTransform();//将求解的变元真值表转换为二维数组数独终盘
+					for(int i=0;i<9;i++){
+						for(int j=0;j<9;j++)
+							if(!sudoku_table[i][j]){
+								printf("%d %d\n",i,j);
+							}
+					}
+					SudokuTablePrint();
 					printf("请选择数独难度：\n1.easy\t\t2.medium\t\t3.Hard\n");
 					scanf("%d",&difficulty);
 					//SudokuTablePrint();//测试用句，先输出终盘答案
@@ -1544,7 +1551,22 @@ FILE * CreateSudokuFile(void) {
 		}
 	}                        //每个cell必须取1～9中的一个值
 	// 添加对主对角线的约束
+/*for (z = 1; z <= 9; z++) {
+    for (x = 0; x < 8; x++) {
+        for (i = x + 1; i < 9; i++) {
+            fprintf(fp, "%d %d 0\n", -(81 * x + 9 * x + z), -(81 * i + 9 * i + z));
+        }
+    }
+}
 
+// 添加对副对角线的约束
+for (z = 1; z <= 9; z++) {
+    for (x = 0; x < 8; x++) {
+        for (i = x + 1; i < 9; i++) {
+            fprintf(fp, "%d %d 0\n", -(81 * x + 9 * (8 - x) + z), -(81 * i + 9 * (8 - i) + z));
+        }
+    }
+}*/
 
 	fclose(fp);
 	fp=fopen("SudokuTableBase.cnf", "r");
@@ -1726,10 +1748,10 @@ status DigHole(int num) {
 	int table_diged[9][9];
 	int diged_cells[82];
 	FILE *fp;
-
+	//fp = fopen("SudokuTableBase.cnf","r");
 	for (i=0; i<=81; i++)
 		diged_cells[i]=0;
-	fp=CreateSudokuFile();
+	fp=CreateSudokuFile();//因为已经备份了sudoku_table
 	if (fp==NULL) {
 		printf("文件打开失败！\n");
 		return ERROR;
@@ -1775,7 +1797,7 @@ status DigHole(int num) {
 	/*将CNF公式邻接链表恢复至未知第一个洞位置的填入值，即其对应变元真值时的状态*/
 	for (z=1; z<=9; z++) {
 		if (z==origin)
-			RecoverCNF(r, 81*x+9*y+z);
+			RecoverCNF(r, 81*x+9*y+z);//?为什么要改r，反正后面都删了,因为要维护valuelist
 		else RecoverCNF(r, -(81*x+9*y+z));
 		ValueList[81*x+9*y+z].IsInit=0;
 		ValueList[81*x+9*y+z].Value=0;
@@ -1827,36 +1849,37 @@ status DigHole(int num) {
 		/*对挖洞位置填入除原终盘数值外的8个数值，依次用SAT求解器进行求解，如有解则说明挖洞后解不唯一，该洞不可挖*/
 		for (z=1; z<=9; z++) {
 			result=0;
-			if (z!=origin) {
-				/*处理CNF范式链表*/
-				for (d=1; d<=9; d++) {
-					ValueList[81*x+9*y+d].IsInit=1;
-					if (d==z) {
-						ValueList[81*x+9*y+d].Value=1;
-						DeleteClause(r, 81*x+9*y+d);
-						DeleteLiteral(r, 81*x+9*y+d);
-					} else {
-						ValueList[81*x+9*y+d].Value=0;
-						DeleteClause(r, -(81*x+9*y+d));
-						DeleteLiteral(r, -(81*x+9*y+d));
-					}
-				}
-				DPLL1(FindLiteral1(r), 1,1);
-				SudokuComplete();
-				result=AnswerCheck(1);
-				if (result==1) {
-					table_diged[x][y]=origin;
-					break;
+			if(z==origin) continue;
+			
+			/*处理CNF范式链表*/
+			for (d=1; d<=9; d++) {
+				ValueList[81*x+9*y+d].IsInit=1;
+				if (d==z) {
+					ValueList[81*x+9*y+d].Value=1;
+					DeleteClause(r, 81*x+9*y+d);
+					DeleteLiteral(r, 81*x+9*y+d);
 				} else {
-					for (d=1; d<=9; d++) {
-						if (d==z)
-							RecoverCNF(r, 81*x+9*y+d);
-						else RecoverCNF(r, -(81*x+9*y+d));
-						ValueList[81*x+9*y+d].IsInit=0;
-						ValueList[81*x+9*y+d].Value=0;
-					}
+					ValueList[81*x+9*y+d].Value=0;
+					DeleteClause(r, -(81*x+9*y+d));
+					DeleteLiteral(r, -(81*x+9*y+d));
 				}
 			}
+			DPLL1(FindLiteral1(r), 1,1);
+			SudokuComplete();
+			result=AnswerCheck(1);
+			if (result==1) {
+				table_diged[x][y]=origin;
+				break;
+			} else {
+				for (d=1; d<=9; d++) {
+					if (d==z)
+						RecoverCNF(r, 81*x+9*y+d);
+					else RecoverCNF(r, -(81*x+9*y+d));
+					ValueList[81*x+9*y+d].IsInit=0;
+					ValueList[81*x+9*y+d].Value=0;
+				}
+			}
+			
 		}
 		if (result==1) {
 			circle--;//本次循环挖洞不成功
@@ -1939,11 +1962,13 @@ status SudokuComplete(void) {
 /*数独对应SAT变元表转化为二维数组*/
 status CNFSudokuTableTransform(void) {
 	int i,j,z;
+	int cnt=0;
 	for (i=0; i<9; i++) {
 		for (j=0; j<9; j++) {
 			for (z=1; z<=9; z++) {
 				if (ValueList[81*i+9*j+z].Value==1) {
 					sudoku_table[i][j]=z;
+					printf("%d %d %d\n",i,j,z);
 				}
 			}
 		}
