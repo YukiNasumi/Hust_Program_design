@@ -1585,9 +1585,9 @@ status CreateSudoku(void) {
 		/*对1～81的数字进行随机排序*/
 		for (i=0; i<=81; i++)
 			order[i]=i;
-		for (i=81; i>2; i--) {
-			randnum=rand()%i+1;
-			if (i!=randnum) {
+		for (i=81; i>=1; i--) {
+			randnum=rand()%81+1;//生成1到81的随机数
+			if (i!=randnum) {//随机与一个数交换
 				d=order[i];
 				order[i]=order[randnum];
 				order[randnum]=d;
