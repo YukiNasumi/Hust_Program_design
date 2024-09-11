@@ -7,7 +7,7 @@ int main(int args,char *argv[]){
     int op=1;//记录选择的操作序号
 	int choose;//记录选择的算法序号
 	int i=0,solut=0;//solut记录CNF公式是否有解，有解为1，无解为0
-	//clock_t start = 0,finish = 0;//记录DPLL函数调用的起始和终止时间
+	clock_t start = 0,finish = 0;//记录DPLL函数调用的起始和终止时间
 	int duration=0;//记录SAT求解时间
 	FILE *open;
 	printf("请输入需求解的cnf文件名：");
