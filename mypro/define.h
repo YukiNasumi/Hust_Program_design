@@ -827,6 +827,7 @@ status SAT(void) {
 					case 1:
 						start=clock();
 						solut=DPLL3(FindLiteral1(r),1,1);
+						AnswerCheck(solut);
 						finish=clock();
 						duration=(finish-start);
 						break;
@@ -1359,19 +1360,23 @@ status AnswerCheck(int solut) {
 			i++;
 			flag=0;
 			for (c=p->sentence; c!=NULL; c=c->nextl) {
+				printf("%d ",c->literal);
 				l=abs(c->literal);
 				if (c->literal>0) {
 					value=ValueList[l].Value;
 				} else value=1-ValueList[l].Value;//如果一个lit的值为1这个子句就满足了
+				printf("%d ",value);
 				if (value==1) {
+
 					flag=1;//子句中有文字真值为1，子句真值为1
-					break;
+					//break;
 				}
 			}
 			if (flag==0) {
-
+				printf("unsatisfied\n");
 				return FALSE;//子句中无真值为1的文字，子句真值为0，求解错误
 			}
+			printf("satisfied\n");
 		}
 		return TRUE;
 	} else {//公式无解
@@ -1592,18 +1597,22 @@ status CreateSudoku(void) {
 		/*对1～81的数字进行随机排序*/
 		for (i=0; i<=81; i++)
 			order[i]=i;
-		for (i=81; i>=1; i--) {
+		/*for (i=81; i>=1; i--) {
 			randnum=rand()%81+1;//生成1到81的随机数
 			if (i!=randnum) {//随机与一个数交换
 				d=order[i];
 				order[i]=order[randnum];
 				order[randnum]=d;
 			}
-		}
-
-		for (i=1; i<=10; i++) {                 //在棋盘中随机选10个格子随机填入1~9
-			x=(order[i]-1)/9;//顺序为i的cell在棋盘的行数
-			y=(order[i]-1)%9;//该cell在棋盘的列数
+		}*/
+		int seq=0;
+		for (i=1; i<=10;) {                 //在棋盘中随机选10个格子随机填入1~9
+			int tmp = rand()%81+1;
+			if(tmp == seq) continue;
+			seq = tmp;
+			i++;
+			x=(order[seq]-1)/9;//顺序为i的cell在棋盘的行数
+			y=(order[seq]-1)%9;//该cell在棋盘的列数
 			z=rand()%9+1;//1～9的随机数
 
 			/*将已经确定的cell的值记入变元真值表中*/
@@ -1622,6 +1631,7 @@ status CreateSudoku(void) {
 
 		}
 	} while (DPLL2(FindLiteral2(r),2,1)==FALSE);//进入SAT求解器求解，直到得到数独终盘
+	printf("result:%d\n",AnswerCheck(1));
 	return OK;
 }
 
@@ -1967,8 +1977,9 @@ status CNFSudokuTableTransform(void) {
 		for (j=0; j<9; j++) {
 			for (z=1; z<=9; z++) {
 				if (ValueList[81*i+9*j+z].Value==1) {
+					cnt++;
 					sudoku_table[i][j]=z;
-					printf("%d %d %d\n",i,j,z);
+					printf("totoal: %d encode:%d %d %d\n",cnt,i,j,z);
 				}
 			}
 		}
