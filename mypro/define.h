@@ -1565,7 +1565,7 @@ FILE * CreateSudokuFile(void) {
 		printf("文件打开失败！\n");
 		return NULL;
 	}
-	fprintf(fp, "p cnf 729 10287\n");//共有729个变元，9*9个数独空格每个格对应9个变元，填入1～9中某一值则对应变元为真，其他为假
+	fprintf(fp, "p cnf 729 10935\n");//共有729个变元，9*9个数独空格每个格对应9个变元，填入1～9中某一值则对应变元为真，其他为假
 	for (x=0; x<9; x++) {
 		for (y=0; y<9; y++)
 			for (z=1; z<9; z++)
@@ -1602,7 +1602,7 @@ FILE * CreateSudokuFile(void) {
 		}
 	}                        //每个cell必须取1～9中的一个值
 	// 添加对主对角线的约束
-/*for (z = 1; z <= 9; z++) {
+for (z = 1; z <= 9; z++) {
     for (x = 0; x < 8; x++) {
         for (i = x + 1; i < 9; i++) {
             fprintf(fp, "%d %d 0\n", -(81 * x + 9 * x + z), -(81 * i + 9 * i + z));
@@ -1617,7 +1617,7 @@ for (z = 1; z <= 9; z++) {
             fprintf(fp, "%d %d 0\n", -(81 * x + 9 * (8 - x) + z), -(81 * i + 9 * (8 - i) + z));
         }
     }
-}*/
+}
 
 	fclose(fp);
 	fp=fopen("SudokuTableBase.cnf", "r");
