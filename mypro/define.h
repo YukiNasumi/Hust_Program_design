@@ -828,7 +828,7 @@ status SAT(void) {
 					getchar();
 					break;
 				}
-				printf(" 使用：1.优化1算法       2.优化2算法        3.优化前算法\n");
+				printf(" 使用：1.优化1算法       2.优化2算法\n");
 				scanf("%d",&choose);
 				switch (choose) {
 					case 1:
@@ -838,12 +838,6 @@ status SAT(void) {
 						duration=(finish-start);
 						break;
 					case 2:
-						start=clock();
-						solut=DPLL4(FindLiteral2(r),1,1);
-						finish=clock();
-						duration=(finish-start);
-						break;
-					case 3:
 						start=clock();
 						solut=DPLL_Before(r, 1);
 						finish=clock();
@@ -1454,7 +1448,7 @@ status Sudoku(void) {
 		system("cls");
 		printf("\t\tChoose an option please.\n");
 		printf("---------------------------------------------------------\n");
-		printf("  1.数独游戏         2.求解一个数独文件         0.退出\n");
+		printf("  1.数独游戏         0.退出\n");
 		printf("---------------------------------------------------------\n");
 		scanf("%d",&op);
 		switch (op) {
