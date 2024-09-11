@@ -759,11 +759,18 @@ status SaveValue(ArgueValue *ValueList,int solut,int time) {
 		for (i=1; i<=r->litsize; i++) {
 			if (ValueList[i].IsInit==1) {
 				if (ValueList[i].Value==1) {
-					fprintf(save, "%-7d",i);
-				} else fprintf(save, "%-7d",0-i);
-				fprintf(save, " ");
+					if(i%10==0){
+						fprintf(save,"%d\n",i);
+					}
+					else fprintf(save, "%-7d",i);
+				} 
+				else {
+					if(i%10==0){
+						fprintf(save,"%d\n",0-i);
+					}
+					else fprintf(save, "%-7d",0-i);
+				};
 			}
-			if(i%10==0) fprintf(save,"\n");
 		}
 		fprintf(save, "\nt %d ms\n", time);
 	}
@@ -827,7 +834,6 @@ status SAT(void) {
 					case 1:
 						start=clock();
 						solut=DPLL3(FindLiteral1(r),1,1);
-						AnswerCheck(solut);
 						finish=clock();
 						duration=(finish-start);
 						break;
@@ -1360,6 +1366,47 @@ status AnswerCheck(int solut) {
 			i++;
 			flag=0;
 			for (c=p->sentence; c!=NULL; c=c->nextl) {
+				l=abs(c->literal);
+				if (c->literal>0) {
+					value=ValueList[l].Value;
+				} else value=1-ValueList[l].Value;//如果一个lit的值为1这个子句就满足了
+				if (value==1) {
+					flag=1;//子句中有文字真值为1，子句真值为1
+					break;
+				}
+			}
+			if (flag==0) {
+
+				return FALSE;//子句中无真值为1的文字，子句真值为0，求解错误
+			}
+		}
+		return TRUE;
+	} else {//公式无解
+		for (p=r->first; p!=NULL; p=p->nextc) {
+			flag=0;
+			for (c=p->sentence; c!=NULL; c=c->nextl) {
+				l=abs(c->literal);
+				if (c->literal>0) {
+					value=ValueList[l].Value;
+				} else value=1-ValueList[l].Value;
+				if (value==1) flag=1;//子句中有文字真值为1，子句真值为1
+			}
+			if (flag==0) return TRUE;//子句真值为0，求解正确
+		}
+		return FALSE;
+	}
+}
+
+
+status myAnswerCheck(int solut) {
+	Paradigm *p;
+	Clause *c;
+	int flag,l,value,i=0;
+	if (solut==1) {//公式有解
+		for (p=r->first; p!=NULL; p=p->nextc) {
+			i++;
+			flag=0;
+			for (c=p->sentence; c!=NULL; c=c->nextl) {
 				printf("%d ",c->literal);
 				l=abs(c->literal);
 				if (c->literal>0) {
@@ -1395,7 +1442,6 @@ status AnswerCheck(int solut) {
 	}
 }
 
-
 /*------------------------SuDoKu------------------------*/
 
 status Sudoku(void) {
@@ -1422,7 +1468,7 @@ status Sudoku(void) {
 								printf("%d %d\n",i,j);
 							}
 					}
-					SudokuTablePrint();
+					//SudokuTablePrint();
 					printf("请选择数独难度：\n1.easy\t\t2.medium\t\t3.Hard\n");
 					scanf("%d",&difficulty);
 					//SudokuTablePrint();//测试用句，先输出终盘答案
@@ -1586,6 +1632,7 @@ status CreateSudoku(void) {
 	for (x=0; x<9; x++)
 		for (y=0; y<9; y++)
 			sudoku_table[x][y]=0;
+	int solut;
 	do {
 		fp=CreateSudokuFile();
 		if (fp==NULL) {
@@ -1630,8 +1677,8 @@ status CreateSudoku(void) {
 			}
 
 		}
-	} while (DPLL2(FindLiteral2(r),2,1)==FALSE);//进入SAT求解器求解，直到得到数独终盘
-	printf("result:%d\n",AnswerCheck(1));
+	 	solut = DPLL3(FindLiteral1(r),1,1);
+	} while ((!solut)||(!AnswerCheck(solut)));//进入SAT求解器求解，直到得到数独终盘
 	return OK;
 }
 
@@ -1972,14 +2019,14 @@ status SudokuComplete(void) {
 /*数独对应SAT变元表转化为二维数组*/
 status CNFSudokuTableTransform(void) {
 	int i,j,z;
-	int cnt=0;
+	//int cnt=0;
 	for (i=0; i<9; i++) {
 		for (j=0; j<9; j++) {
 			for (z=1; z<=9; z++) {
 				if (ValueList[81*i+9*j+z].Value==1) {
-					cnt++;
+					//cnt++;
 					sudoku_table[i][j]=z;
-					printf("totoal: %d encode:%d %d %d\n",cnt,i,j,z);
+					//printf("totoal: %d encode:%d %d %d\n",cnt,i,j,z);
 				}
 			}
 		}
