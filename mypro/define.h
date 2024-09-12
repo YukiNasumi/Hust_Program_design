@@ -1476,8 +1476,8 @@ status Sudoku(void) {
 							printf("输入出错！\n");
 							break;
 					}
-					choose=1;
-					while (choose) {
+					choose=0;
+					while (choose==0) {
 						flag=1;//flag标记用户求解答案正确与否，正确为1，错误为0
 						printf("按“行列值”的顺序，依次输入你的答案（例：“436”代表第四行第三列的空格内填入6）\n");
 						int next =1;
@@ -1499,11 +1499,12 @@ status Sudoku(void) {
 									printf("错误，是否继续？\n");
 								}
 							}
-							printf("是否继续？\n");
+							printf("是否继续？	1.是 0 否\n");
 							scanf("%d",&next);
 							UserTablePrint();
+							printf("按“行列值”的顺序，依次输入你的答案（例：“436”代表第四行第三列的空格内填入6）\n");
 						}
-						printf("是否查看答案?	1.否 0 是\n");
+						printf("是否查看最终答案?	1.是 0 否\n");
 						scanf("%d",&choose);
 					}
 				SudokuTablePrint();
