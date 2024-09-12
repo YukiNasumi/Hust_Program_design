@@ -129,7 +129,7 @@ status SudokuComplete(void);//完善数独终盘
 FILE * SetCNFfile(void);//将数独txt文件转化为cnf 
 status CNFSudokuTableTransform(void);//数独对应SAT变元表转化为二维数组
 status SudokuTablePrint(void);//输出数独盘
-
+status UserTablePrint(void);
 
 
 /*------------------------CNF文件处理------------------------*/
@@ -1456,12 +1456,6 @@ status Sudoku(void) {
 				solut=CreateSudoku();//生成基础数独终盘对应变元真值表
 				if (solut) {
 					CNFSudokuTableTransform();//将求解的变元真值表转换为二维数组数独终盘
-					for(int i=0;i<9;i++){
-						for(int j=0;j<9;j++)
-							if(!sudoku_table[i][j]){
-								printf("%d %d\n",i,j);
-							}
-					}
 					//SudokuTablePrint();
 					printf("请选择数独难度：\n1.easy\t\t2.medium\t\t3.Hard\n");
 					scanf("%d",&difficulty);
@@ -1485,52 +1479,38 @@ status Sudoku(void) {
 					choose=1;
 					while (choose) {
 						flag=1;//flag标记用户求解答案正确与否，正确为1，错误为0
-						printf("按“行列值”的顺序，依次输入你的答案（例：“436”代表第四行第三列的空格内填入6），每输入一个答案用回车键断开，输入完成后请输入空格并按回车继续：\n");
-						getchar();
-						c=getchar();
-						while (c!='\n') {
-							i=0;
-							while (c!=' ') {
-								x[i++]=c-'0';
-								c=getchar();
-							}
-							users_sudoku[x[0]][x[1]]=x[2];//记录用户输入答案
-							c=getchar();
-						}
-						for (i=0; i<9; i++) {
-							for (j=0; j<9; j++)
-								//对比用户解答和数独答案，判断其求解正确性
-								if (sudoku_table[i][j]!=users_sudoku[i][j]) {
-									printf("答案错误！\n");
-									flag=0;
-									break;
+						printf("按“行列值”的顺序，依次输入你的答案（例：“436”代表第四行第三列的空格内填入6）\n");
+						int next =1;
+						while (next)
+						{
+							int ans;
+							scanf("%d",&ans);
+							int i = ans/100;
+							int j = (ans%100)/10;
+							int k = ans%10;
+							users_sudoku[i][j] = k;
+							printf("是否现在检查答案	1.是 0.否\n");
+							int check;
+							scanf("%d",&check);
+							if(check){
+								if(users_sudoku[i][j]==sudoku_table[i][j]){
+									printf("正确，是否继续？\n");
+								}else{
+									printf("错误，是否继续？\n");
 								}
-							if (flag==0) {
-								break;
 							}
+							printf("是否继续？\n");
+							scanf("%d",&next);
+							UserTablePrint();
 						}
-						if (flag) {
-							printf("恭喜！答案正确！\n");
-							SudokuTablePrint();//输出数独终盘
-							choose=0;
-						} else {
-							printf("是否查看答案？0.是  1.否\n");
-							scanf("%d",&choose);
-							switch (choose) {
-								case 1:
-									break;
-								case 0:
-									SudokuTablePrint();
-									break;
-								default:
-									printf("输入错误！\n");
-									break;
-							}
-						}
+						printf("是否查看答案?	1.否 0 是\n");
+						scanf("%d",&choose);
 					}
-				} else  printf("生成失败！\n");
+				SudokuTablePrint();
 				getchar();
 				getchar();
+				}
+				else printf("生成失败\n");
 				break;
 			case 2:
 				SolveSudoku();
@@ -1551,7 +1531,7 @@ status Sudoku(void) {
 }
 
 /*创建数独问题转化为SAT问题后的cnf文件*/
-FILE * CreateSudokuFile(void) {
+FILE * CreateSudokuFile(void){
 	int x,y,z,i,j,k,l;//x代表数独的行，y代表数独的列，z取1～9分别代表该格中数独填入值为1～9中任一值
 	FILE *fp;
 	fp=fopen("SudokuTableBase.cnf", "wb");
@@ -2050,3 +2030,25 @@ status SudokuTablePrint(void) {
 	return OK;
 }
 
+status UserTablePrint(void) {
+	int i,j;
+	printf("   0   1   2   3   4   5   6   7   8  \n");//列标号
+	printf(" +---+---+---+---+---+---+---+---+---+\n");
+	for (i=0; i<9; i++) {
+		printf("%d",i);//行标号
+		for (j=0; j<9; j++) {
+			if (j==0||j==3||j==6) {
+				printf("|");//region间间隔线
+			} else printf(" ");
+			if(users_sudoku[i][j])
+			printf(" %d ",users_sudoku[i][j]);
+			else printf("   ");
+		}
+		printf("|\n");
+		if (i==2||i==5||i==8) {
+			printf(" +---+---+---+---+---+---+---+---+---+\n");//region间间隔线
+		} else printf(" |           |           |           |\n"); //region间间隔线
+	}
+	printf("\n");
+	return OK;
+}
